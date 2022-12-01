@@ -1,0 +1,12 @@
+#pragma once
+#include "product.h"
+
+typedef struct {
+	char barcode[BARCODE_SIZE];
+	float price;
+	int amount;
+}Shoppingitem;
+
+void printShoppingItem(const Shoppingitem* pShoppingItem);
+void initShoppingItem(Shoppingitem* pShoppingItem);
+void freeShoppingItem(Shoppingitem* pShoppingItem);
