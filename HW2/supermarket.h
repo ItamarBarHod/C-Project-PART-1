@@ -1,9 +1,11 @@
 #pragma once
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "product.h"
 #include "customer.h"
-#include "shoppingcart.h"
 #include "address.h"
+
 
 typedef struct {
 	char* marketName;
@@ -14,17 +16,20 @@ typedef struct {
 	int productArrSize;
 }Supermarket;
 
+// main funcs
 void initSuperMarket(Supermarket* pSupermarket);
 void printMarket(const Supermarket* pSupermarket);
 void addProduct(Supermarket* pSupermarket);
 void addCustomer(Supermarket* pSupermarket);
-void startPurchasing(Supermarket* pSupermarket);
-void printShoppingCart(const Supermarket* pSupermarket);
-void customerPayment(Supermarket* pSuperMarket);
+void customerShopping(Supermarket* pSupermarket);
+void printCustomerShoppingCart(const Supermarket* pSupermarket);
+void customerPay(Supermarket* pSuperMarket);
 void printProductType(const Supermarket* pSupermarket);
 
-int checkProductExists(const Supermarket* pSupermarket, const Product* pProduct);
-int checkCustomerExists(const Supermarket* pSupermarket, char* pCustomerName);
-void updateStock(Supermarket* pSupermarket, Product** productArr, int numOfItems);
-void checkOut(Supermarket* pSupermarket, Customer* pCustomer);
-void deleteSuperMarket(Supermarket* pSupermarket); // loop productArr
+// extra / helpers
+void customerCheckout(Supermarket* pSupermarket, char* name, int customerPos);
+int checkProductExists(const Supermarket* pSupermarket, const char* barcode, int* productPos);
+int checkCustomerExists(const Supermarket* pSupermarket, const char* pCustomerName, int* customerPos);
+void deleteSuperMarket(Supermarket* pSupermarket);
+void addProductHelper(Supermarket* pSupermarket, char* barcode);
+void addCustomerHelper(Supermarket* pSupermarket, char* name);

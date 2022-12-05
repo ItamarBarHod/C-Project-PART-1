@@ -134,7 +134,9 @@
     <ClCompile Include="product.c" />
     <ClCompile Include="shoppingcart.c" />
     <ClCompile Include="shoppingitem.c" />
+    <ClCompile Include="stringfuncs.c" />
     <ClCompile Include="supermarket.c" />
+    <ClCompile Include="userinput.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="address.h" />
@@ -142,7 +144,9 @@
     <ClInclude Include="product.h" />
     <ClInclude Include="shoppingcart.h" />
     <ClInclude Include="shoppingitem.h" />
+    <ClInclude Include="stringfuncs.h" />
     <ClInclude Include="supermarket.h" />
+    <ClInclude Include="userinput.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

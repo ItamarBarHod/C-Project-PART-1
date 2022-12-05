@@ -36,6 +36,12 @@
     <ClCompile Include="supermarket.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="stringfuncs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="userinput.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="address.h">
@@ -54,6 +60,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="supermarket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stringfuncs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="userinput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
