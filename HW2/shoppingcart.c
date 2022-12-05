@@ -9,17 +9,24 @@ void printShoppingCart(const Shoppingcart* pShoppingCart)
 	printf("\n");
 }
 
-void initShoppingCart(Shoppingcart* pShoppingCart)
+Shoppingcart* initShoppingCart()
 {
-	pShoppingCart->shoppingCartSize = 0;
-	pShoppingCart->itemsArr = NULL;
+	Shoppingcart* tempCart = (Shoppingcart*)malloc(sizeof(Shoppingcart));
+	if (tempCart == NULL)
+	{
+		printf("MEMORY ERROR\n");
+		return;
+	}
+	tempCart->shoppingCartSize = 0;
+	tempCart->itemsArr = NULL;
+	return tempCart;
 }
 
 void returnShoppingCart(Shoppingcart* pShoppingCart) // needs to be in supermarket plus reduce from products
 {
 	for (int i = 0; i < pShoppingCart->shoppingCartSize; i++)
 	{
-		free(pShoppingCart->itemsArr[i]);
+		free(&pShoppingCart->itemsArr[i]);
 	}
 	pShoppingCart->shoppingCartSize = 0;
 }
@@ -40,7 +47,12 @@ void addItemToCart(Shoppingcart* pShoppingCart, const Shoppingitem* pShoppingite
 {
 	pShoppingCart->shoppingCartSize++;
 	Shoppingitem* temp = (Shoppingitem*)(malloc(pShoppingCart->shoppingCartSize * sizeof(Shoppingitem)));
+	if (temp == NULL)
+	{
+		printf("MEMORY ERROR\n");
+		return;
+	}
 	realloc(temp, pShoppingCart->itemsArr);
-	temp[pShoppingCart->shoppingCartSize - 1] = *pShoppingitem;
 	pShoppingCart->itemsArr = NULL;
+	temp[pShoppingCart->shoppingCartSize - 1] = *pShoppingitem;
 }

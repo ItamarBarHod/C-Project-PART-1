@@ -4,7 +4,7 @@ void printProduct(const Product* pProduct) // CHECK WORKS PROPERLY
 {
 	printf("%s %s %s %f %d\n", pProduct->productName, pProduct->barcode, productTypes[pProduct->type], pProduct->price, pProduct->stock);
 }
-void getProductData(Product* pProduct, char* barcode)
+void insertProductData(Product* pProduct, char* barcode)
 {
 	printf("please enter a product name, maximum size %d\n", PRODUCT_SIZE - 1);
 	getNameFromUser(pProduct->productName, PRODUCT_SIZE);
@@ -16,10 +16,15 @@ void getProductData(Product* pProduct, char* barcode)
 	pProduct->stock = (int)getNumberFromUser();
 }
 
-void initProduct(Product* pProduct)
+Product* initProduct()
 {
 	Product* tempProd = (Product*)malloc(sizeof(Product));
+	if (tempProd == NULL)
+	{
+		printf("MEMORY ERROR\n");
+		return NULL;
+	}
 	tempProd->barcode = NULL;
 	tempProd->productName = NULL;
-	pProduct = *tempProd;
+	return tempProd;
 }

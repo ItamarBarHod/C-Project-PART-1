@@ -6,12 +6,16 @@ void printCustomer(const Customer* pCustomer)
 	printShoppingCart(&pCustomer->cart);
 }
 
-void initCustomer(Customer* pCustomer)
+Customer* initCustomer()
 {
 	Customer* tempCustomer = (Customer*)malloc(sizeof(Customer));
+	if (tempCustomer == NULL)
+	{
+		printf("MEMORY ERROR\n");
+		return NULL;
+	}
 	tempCustomer->name = NULL;
-	tempCustomer->cart = NULL;
-	pCustomer = *tempCustomer;
+	return tempCustomer;
 }
 
 void insertCustomerData(Customer* pCustomer, char* name)

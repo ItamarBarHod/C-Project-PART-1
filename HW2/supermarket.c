@@ -53,34 +53,24 @@ void addProduct(Supermarket* pSupermarket)
 	}
 	else
 	{
-		printf("adding product with barcode %s\n", barcode);
+		printf("Adding product with barcode %s:\n", barcode);
 		addProductHelper(pSupermarket, barcode);
 	}
 }
 
 void addProductHelper(Supermarket* pSupermarket, char* barcode)
 {
-	Product* tempProduct;
-	initProduct(tempProduct);
+	Product* tempProduct = initProduct();
 	insertProductData(tempProduct, barcode);
-	Product** initProdArr = (Product**)malloc(((pSupermarket->productArrSize) + 1) * sizeof(Product*));
+	int arrSize = pSupermarket->productArrSize;
+	Product** initProdArr = (Product**)realloc(pSupermarket->productArr, (arrSize + 1) * sizeof(Product*));
 	if (initProdArr == NULL)
 	{
 		printf("MEMORY ERROR!\n");
 		return;
 	}
-	for (int i = 0; i < pSupermarket->productArrSize; i++) // realloc previous content
-	{
-		initProdArr[i] = realloc(pSupermarket->productArr[i], sizeof(Product*));
-	}
-	for (int i = 0; i < pSupermarket->productArrSize; i++) // free previous content
-	{
-		freeProduct(pSupermarket->productArr[i]);
-		pSupermarket->productArr = NULL;
-	}
+	*(initProdArr + pSupermarket->productArrSize) = tempProduct;
 	pSupermarket->productArrSize++;
-	memcpy(initProdArr[pSupermarket->productArrSize - 1], tempProduct, sizeof(Product*));
-	pSupermarket->productArr = initProdArr;
 }
 
 void addCustomer(Supermarket* pSupermarket)
@@ -102,21 +92,17 @@ void addCustomer(Supermarket* pSupermarket)
 
 void addCustomerHelper(Supermarket* pSupermarket, char* name)  // TODO
 {
-	Customer customer;
-	insertCustomer(&customer, name);
-	Customer* tempArr = (Customer*)malloc(((pSupermarket->customerArrSize) + 1) * sizeof(Customer));
+	Customer* customer = initCustomer();
+	insertCustomerData(customer, name);
+	int arrSize = pSupermarket->customerArrSize;
+	Customer* tempArr = (Customer*)malloc(pSupermarket->customerArr, (arrSize + 1) * sizeof(Customer));
 	if (tempArr == NULL)
 	{
 		printf("MEMORY ERROR!\n");
 		return;
 	}
-	for (int i = 0; i < pSupermarket->customerArrSize; i++)
-	{
-		tempArr[i] = pSupermarket->customerArr[i];
-	}
+	*(tempArr + arrSize) = *customer;
 	pSupermarket->customerArrSize++;
-	tempArr[pSupermarket->customerArrSize - 1] = customer;
-	realloc(pSupermarket->customerArr, tempArr);
 }
 
 void customerShopping(Supermarket* pSupermarket)
@@ -158,8 +144,8 @@ void customerPay(Supermarket* pSuperMarket)
 	}
 	else
 	{
-		Customer payingCustomer = pSuperMarket->customerArr[customerPos];
-		if (payingCustomer.cart.shoppingCartSize > 0) {
+		int cartSize = pSuperMarket->customerArr[customerPos].cart.shoppingCartSize;
+		if (cartSize > 0) {
 			customerCheckout(pSuperMarket, name, customerPos);
 		}
 		else
@@ -175,7 +161,7 @@ void customerCheckout(Supermarket* pSupermarket, char* name, int customerPos)
 	printf("Customer %s is eligible for checkout!\nprinting customer cart:\n", name);
 	printShoppingCart(&pSupermarket->customerArr[customerPos].cart);
 	printf("Price: %lf\n", calcShoppingCart(&pSupermarket->customerArr[customerPos].cart));
-	returnShoppingCart(&pSupermarket->customerArr[customerPos].cart);
+	returnShoppingCart(&pSupermarket->customerArr[customerPos].cart); // reduce from supermarket data
 }
 
 void printProductType(const Supermarket* pSupermarket)

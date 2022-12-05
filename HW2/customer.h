@@ -10,4 +10,4 @@ typedef struct {
 
 void printCustomer(const Customer* pCustomer);
 void insertCustomerData(Customer* pCustomer, char* name);
-void initCustomer(Customer* pCustomer);
+Customer* initCustomer();
