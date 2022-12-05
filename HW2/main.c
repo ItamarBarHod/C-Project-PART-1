@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "supermarket.h"
 
+
 int main()
 {
 	Supermarket market;
@@ -9,7 +10,7 @@ int main()
 	int option;
 	while (flag)
 	{
-		printf("enter an option:\n");
+		printf("\nPlease choose one of the following options:\n1 - Show SuperMarket\n2 - Add Product\n3 - Add Customer\n4 - Customer Shopping\n5 - Print Shopping Cart\n6 - Customer Pay\n7 - Print Product By Type\n8 - Quit\n");
 		scanf(" %d", &option);
 		switch (option)
 		{
@@ -23,25 +24,27 @@ int main()
 			addCustomer(&market);
 			break;
 		case 4:
-			startPurchasing(&market);
+			customerShopping(&market);
 			break;
 		case 5:
-			printShoppingCart(&market);
+			printCustomerShoppingCart(&market);
 			break;
 		case 6:
-			customerPayment(&market);
+			customerPay(&market);
 			break;
 		case 7:
 			printProductType(&market);
 			break;
 		case 8:
 			flag = 0;
+			// free shopping carts etc.
 			printf("Bye bye!\n");
 			break;
 		default:
-			printf("no such option!\n\n");
+			printf("no such option!\n");
 			break;
 		}
 	}
-	deleteSuperMarket(&market); //free
+	system("pause");
+	deleteSuperMarket(&market);
 }

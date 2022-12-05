@@ -1,14 +1,15 @@
 #pragma once
+
+#include <stdlib.h>
 #include "shoppingitem.h"
 
 typedef struct {
 	Shoppingitem* itemsArr;
-	int itemsArrSize;
+	int shoppingCartSize;
 }Shoppingcart;
 
 void printShoppingCart(const Shoppingcart* pShoppingCart);
-int calcShoppingCart(const Shoppingcart* pShoppingCart);
 void addItemToCart(Shoppingcart* pShoppingCart, const Shoppingitem* pShoppingitem);
-int getShoppingcartSize(const Shoppingcart* pShoppingCart);
-int checkBarcodeExists(const Shoppingitem* pShoppingItem);
-void deleteShoppingCart(Shoppingcart* pShoppingCart);
+void returnShoppingCart(Shoppingcart* pShoppingCart);
+double calcShoppingCart(const Shoppingcart* pShoppingCart);
+void initShoppingCart(Shoppingcart* pShoppingCart);
