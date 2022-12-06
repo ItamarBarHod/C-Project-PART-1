@@ -263,7 +263,6 @@ void customerCheckout(const Supermarket* pSupermarket, const char* name, int cus
 	printf("Price: %lf\n", calcShoppingCart(&pSupermarket->customerArr[customerPos].cart));
 }
 
-
 int getProductPos(const Supermarket* pSupermarket, const Shoppingitem item)
 {
 	for (int i = 0; i < pSupermarket->productArrSize; i++)

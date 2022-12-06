@@ -6,7 +6,7 @@ void printProduct(const Product* pProduct)
 }
 void insertProductData(Product* pProduct, char* barcode)
 {
-	printf("please enter a product name, maximum size %d\n", PRODUCT_SIZE - 1);
+	printf("Please enter a product name, maximum size %d\n", PRODUCT_SIZE - 1);
 	pProduct->productName = getNameFromUser(PRODUCT_SIZE);
 	pProduct->barcode = barcode;
 	pProduct->type = getProductTypeFromUser();

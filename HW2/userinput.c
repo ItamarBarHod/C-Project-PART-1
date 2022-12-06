@@ -31,16 +31,19 @@ float getNumberFromUser()
 char* getNameFromUser(int maxStrSize)
 {
 	char temp[MAX_SIZE];
+	char* str;
 	do {
 		fgets(temp, maxStrSize, stdin);
+		str = _strdup(temp);
+		int tempSize = (int)strlen(temp);
+		printf("name size: %d\n", tempSize);
+		str[tempSize] = 0;
 		if (temp == NULL)
 		{
 			printf("Please re-enter\n");
 		}
 	} while (temp == NULL);
-	char* str = _strdup(temp);
-	int tempSize = strlen(temp);
-	str[tempSize - 1] = '\0';
+	printf("%s", str);
 	return str;
 }
 
@@ -48,14 +51,16 @@ char* getBarcodeFromUser()
 {
 	char temp[MAX_SIZE];
 	int validBarcode;
-	fgetc(stdin);
+	char* barcode;
 	do {
 		fgets(temp, BARCODE_SIZE, stdin);
-		validBarcode = isValidBarcode(temp);
+		barcode = _strdup(temp);
+		int tempSize = (int)strlen(temp);
+		barcode[tempSize] = 0;
+		printf("barcode size: %d\n", (int)strlen(barcode));
+		validBarcode = isValidBarcode(barcode);
 	} while (!validBarcode || temp == NULL);
-	char* barcode = _strdup(temp);
-	int tempSize = strlen(temp);
-	barcode[tempSize - 1] = '\0';
+	printf("%s", barcode);
 	return barcode;
 }
 

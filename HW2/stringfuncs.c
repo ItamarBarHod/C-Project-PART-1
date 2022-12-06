@@ -3,7 +3,7 @@
 int isValidBarcode(const char* str)
 {
 	int digits = checkDigitsAmount(str);
-	if ((digits > 5 || digits < 3) || strlen(str) != BARCODE_SIZE - 1 || isLowercase(str) || !isValidCharacterPosition(str) || !IsAlphanumeric(str))
+	if ((digits > 5 || digits < 3) || (int)strlen(str) != BARCODE_SIZE - 1 || isLowercase(str) || !isValidCharacterPosition(str) || !IsAlphanumeric(str))
 	{
 		printf("Bad Barcode! Please follow the rules\n");
 		return 0;

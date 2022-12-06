@@ -6,8 +6,6 @@ int main()
 {
 	Supermarket market;
 	initSuperMarket(&market);
-	printf("%s\n", market.marketName);
-	system("pause");
 	int flag = 1;
 	int option;
 	while (flag)
