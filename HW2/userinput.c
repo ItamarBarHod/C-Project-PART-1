@@ -37,7 +37,7 @@ char* getNameFromUser(int maxStrSize)
 		str = _strdup(temp);
 		int tempSize = (int)strlen(temp);
 		printf("name size: %d\n", tempSize);
-		str[tempSize] = 0;
+		str[tempSize] = '\0';
 		if (temp == NULL)
 		{
 			printf("Please re-enter\n");
@@ -56,9 +56,9 @@ char* getBarcodeFromUser()
 		fgets(temp, BARCODE_SIZE, stdin);
 		barcode = _strdup(temp);
 		int tempSize = (int)strlen(temp);
-		barcode[tempSize] = 0;
+		barcode[strlen(temp)] = '\0';
 		printf("barcode size: %d\n", (int)strlen(barcode));
-		validBarcode = isValidBarcode(barcode);
+		validBarcode = isValidBarcode(temp);
 	} while (!validBarcode || temp == NULL);
 	printf("%s", barcode);
 	return barcode;
