@@ -141,8 +141,8 @@ void customerPay(Supermarket* pSuperMarket)
 	printf("enter customer name:\n");
 	char* name = getNameFromUser(MAX_SIZE);
 	int customerPos;
-	int validCustomer = checkCustomerExists(pSuperMarket, name, &customerPos);
-	if (!validCustomer)
+	int customerExists = checkCustomerExists(pSuperMarket, name, &customerPos);
+	if (!customerExists)
 	{
 		printf("No such customer exists, returning to main menu\n");
 	}
@@ -165,7 +165,31 @@ void customerCheckout(Supermarket* pSupermarket, char* name, int customerPos)
 	printf("Customer %s is eligible for checkout!\nprinting customer cart:\n", name);
 	printShoppingCart(&pSupermarket->customerArr[customerPos].cart);
 	printf("Price: %lf\n", calcShoppingCart(&pSupermarket->customerArr[customerPos].cart));
-	returnShoppingCart(&pSupermarket->customerArr[customerPos].cart); // reduce from supermarket data
+	returnShoppingCart(pSupermarket, customerPos); // reduce from supermarket data
+}
+
+void returnShoppingCart(Supermarket* pSupermarket, int customerPos) // CHECK WORKS
+{
+	int cartSize = pSupermarket->customerArr[customerPos].cart.shoppingCartSize;
+	for (int i = 0; i < cartSize; i++)
+	{
+		int itemAmount = pSupermarket->customerArr[customerPos].cart.itemsArr[i].amount;
+		Shoppingitem item = pSupermarket->customerArr[customerPos].cart.itemsArr[i];
+		int productPos = getProductPos(pSupermarket, item);
+		pSupermarket->productArr[productPos]->stock -= itemAmount;
+	}
+	deleteShoppingCart(&pSupermarket->customerArr[customerPos].cart);
+}
+
+int getProductPos(Supermarket* pSupermarket, Shoppingitem item)
+{
+	for (int i = 0; i < pSupermarket->productArrSize; i++)
+	{
+		if (pSupermarket->productArr[i]->barcode == item.barcode)
+		{
+			return i;
+		}
+	}
 }
 
 void printProductType(const Supermarket* pSupermarket)

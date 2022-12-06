@@ -33,3 +33,5 @@ int checkCustomerExists(const Supermarket* pSupermarket, char* pCustomerName, in
 void deleteSuperMarket(Supermarket* pSupermarket);
 void addProductHelper(Supermarket* pSupermarket, char* barcode);
 void addCustomerHelper(Supermarket* pSupermarket, char* name);
+void returnShoppingCart(Supermarket* pSupermarket, int customerPos);
+int getProductPos(Supermarket* pSupermarket, Shoppingitem item);

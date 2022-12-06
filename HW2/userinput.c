@@ -41,6 +41,8 @@ char* getNameFromUser(int maxStrSize)
 		}
 	} while (temp == NULL);
 	char* str = _strdup(temp);
+	int strSize = strlen(str);
+	str[strSize - 1] = '\0';
 	return str;
 }
 
@@ -53,13 +55,8 @@ char* getBarcodeFromUser()
 		fgets(temp, BARCODE_SIZE, stdin);
 		validBarcode = isValidBarcode(temp);
 	} while (!validBarcode || temp == NULL);
-	char* barcode = (char*)malloc(strlen(temp) * sizeof(char));
-	if (barcode == NULL)
-	{
-		printf("MEMORY ERROR\n");
-		return NULL;
-	}
-	barcode = _strdup(temp);
+	char* barcode = _strdup(temp);
+	barcode[BARCODE_SIZE - 1] = '\0';
 	return barcode;
 }
 
