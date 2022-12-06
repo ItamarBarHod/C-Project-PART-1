@@ -2,7 +2,7 @@
 
 void printAddress(const Address* pAdd)
 {
-	printf("Address:%s, %d, %s\n", pAdd->streetName, pAdd->streetNum, pAdd->city);
+	printf("Address: %s, %d, %s\n", pAdd->streetName, pAdd->streetNum, pAdd->city);
 }
 
 void getAddressData(Address* pAdd) // TODO

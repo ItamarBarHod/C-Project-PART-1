@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdlib.h>
 #include "stringfuncs.h"
 #include "userinput.h"
 

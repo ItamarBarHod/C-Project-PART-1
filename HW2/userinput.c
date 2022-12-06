@@ -17,22 +17,20 @@ int getProductTypeFromUser()
 
 float getNumberFromUser()
 {
-	float price;
+	float num;
 	do {
-		scanf(" %f", &price);
-		if (price < 0)
+		scanf(" %f", &num);
+		if (num < 0)
 		{
 			printf("please enter a NON NEGATIVE number!\n");
 		}
-	} while (price < 0);
-	return price;
+	} while (num < 0);
+	return num;
 }
 
 char* getNameFromUser(int maxStrSize)
 {
 	char temp[MAX_SIZE];
-	printf("Max size: 254 letters\n");
-	fgetc(stdin); // clear buffer
 	do {
 		fgets(temp, maxStrSize, stdin);
 		if (temp == NULL)
@@ -41,8 +39,8 @@ char* getNameFromUser(int maxStrSize)
 		}
 	} while (temp == NULL);
 	char* str = _strdup(temp);
-	int strSize = strlen(str);
-	str[strSize - 1] = '\0';
+	int tempSize = strlen(temp);
+	str[tempSize - 1] = '\0';
 	return str;
 }
 
@@ -56,7 +54,8 @@ char* getBarcodeFromUser()
 		validBarcode = isValidBarcode(temp);
 	} while (!validBarcode || temp == NULL);
 	char* barcode = _strdup(temp);
-	barcode[BARCODE_SIZE - 1] = '\0';
+	int tempSize = strlen(temp);
+	barcode[tempSize - 1] = '\0';
 	return barcode;
 }
 
@@ -70,4 +69,18 @@ char* getAddressFromUser()
 		validAddressFormat = isValidAddressFormat(address);
 	} while (!validAddressFormat);
 	return address;
+}
+
+int askUserToContinue()
+{
+	printf("enter Y/y to continue, else enter a random character\n");
+	char answer;
+	do {
+		answer = getchar();
+	} while (answer == '\0');
+	if (answer == 'y' || answer == 'Y')
+	{
+		return 1;
+	}
+	return 0;
 }

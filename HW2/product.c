@@ -1,8 +1,8 @@
 #include "product.h"
 
-void printProduct(const Product* pProduct) // CHECK WORKS PROPERLY
+void printProduct(const Product* pProduct)
 {
-	printf("%s %s %s %.2f %d\n", pProduct->productName, pProduct->barcode, productTypes[pProduct->type], pProduct->price, pProduct->stock);
+	printf("%-*s %-*s %-*s %-*.2f %d\n", 27, pProduct->productName, 9, pProduct->barcode, 16, productTypes[pProduct->type], 14, pProduct->price, pProduct->stock);
 }
 void insertProductData(Product* pProduct, char* barcode)
 {

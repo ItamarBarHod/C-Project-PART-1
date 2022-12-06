@@ -16,8 +16,3 @@ Shoppingitem* initShoppingItem()
 	tempItem->barcode = NULL;
 	return tempItem;
 }
-
-void insertShoppingItem(Shoppingitem* pShoppingItem)
-{
-
-}

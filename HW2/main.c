@@ -6,11 +6,13 @@ int main()
 {
 	Supermarket market;
 	initSuperMarket(&market);
+	printf("%s\n", market.marketName);
+	system("pause");
 	int flag = 1;
 	int option;
 	while (flag)
 	{
-		printf("\nPlease choose one of the following options:\n1 - Show SuperMarket\n2 - Add Product\n3 - Add Customer\n4 - Customer Shopping\n5 - Print Shopping Cart\n6 - Customer Pay\n7 - Print Product By Type\n8 - Quit\n");
+		printf("\nPlease choose one of the following options:\n1 - Show SuperMarket\n2 - Add Product\n3 - Add Customer\n4 - Customer Shopping\n5 - Print Shopping Cart\n6 - Customer Pay\n7 - Print Product By Type\n8 - Quit\n\n");
 		scanf(" %d", &option);
 		switch (option)
 		{
@@ -37,7 +39,7 @@ int main()
 			break;
 		case 8:
 			flag = 0;
-			// free shopping carts etc.
+			deleteSuperMarket(&market); //TODO
 			printf("Bye bye!\n");
 			break;
 		default:
@@ -45,6 +47,4 @@ int main()
 			break;
 		}
 	}
-	system("pause");
-	deleteSuperMarket(&market);
 }
