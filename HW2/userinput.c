@@ -28,26 +28,19 @@ float getNumberFromUser()
 	return price;
 }
 
-char* getNameFromUser()
+char* getNameFromUser(int maxStrSize)
 {
 	char temp[MAX_SIZE];
 	printf("Max size: 254 letters\n");
 	fgetc(stdin); // clear buffer
 	do {
-		fgets(temp, MAX_SIZE, stdin);
+		fgets(temp, maxStrSize, stdin);
 		if (temp == NULL)
 		{
 			printf("Please re-enter\n");
 		}
 	} while (temp == NULL);
-	int tempLength = strlen(temp);
-	char* str = (char*)malloc(tempLength * sizeof(char));
-	if (str == NULL)
-	{
-		printf("MEMORY ERROR\n");
-		return NULL;
-	}
-	str = _strdup(temp);
+	char* str = _strdup(temp);
 	return str;
 }
 
@@ -76,7 +69,7 @@ char* getAddressFromUser()
 	char* address;
 	printf("Please enter address, format: Street name#House number#City\n");
 	do {
-		address = getNameFromUser();
+		address = getNameFromUser(MAX_SIZE);
 		validAddressFormat = isValidAddressFormat(address);
 	} while (!validAddressFormat);
 	return address;

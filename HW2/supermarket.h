@@ -29,7 +29,7 @@ void printProductType(const Supermarket* pSupermarket);
 // extra / helpers
 void customerCheckout(Supermarket* pSupermarket, char* name, int customerPos);
 int checkProductExists(const Supermarket* pSupermarket, const char* barcode, int* productPos);
-int checkCustomerExists(const Supermarket* pSupermarket, const char* pCustomerName, int* customerPos);
+int checkCustomerExists(const Supermarket* pSupermarket, char* pCustomerName, int* customerPos);
 void deleteSuperMarket(Supermarket* pSupermarket);
 void addProductHelper(Supermarket* pSupermarket, char* barcode);
 void addCustomerHelper(Supermarket* pSupermarket, char* name);

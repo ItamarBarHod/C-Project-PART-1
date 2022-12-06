@@ -11,7 +11,7 @@ Shoppingitem* initShoppingItem()
 	if (tempItem == NULL)
 	{
 		printf("MEMORY ERROR\n");
-		return;
+		return NULL;
 	}
 	tempItem->barcode = NULL;
 	return tempItem;

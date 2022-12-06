@@ -15,7 +15,7 @@ Shoppingcart* initShoppingCart()
 	if (tempCart == NULL)
 	{
 		printf("MEMORY ERROR\n");
-		return;
+		return NULL;
 	}
 	tempCart->shoppingCartSize = 0;
 	tempCart->itemsArr = NULL;
@@ -45,14 +45,13 @@ double calcShoppingCart(const Shoppingcart* pShoppingCart)
 
 void addItemToCart(Shoppingcart* pShoppingCart, const Shoppingitem* pShoppingitem) // check works
 {
-	pShoppingCart->shoppingCartSize++;
-	Shoppingitem* temp = (Shoppingitem*)(malloc(pShoppingCart->shoppingCartSize * sizeof(Shoppingitem)));
+	int cartSize = pShoppingCart->shoppingCartSize;
+	Shoppingcart* temp = (Shoppingcart*)realloc(pShoppingCart, (cartSize + 1) * sizeof(Shoppingitem*));
 	if (temp == NULL)
 	{
 		printf("MEMORY ERROR\n");
 		return;
 	}
-	realloc(temp, pShoppingCart->itemsArr);
-	pShoppingCart->itemsArr = NULL;
-	temp[pShoppingCart->shoppingCartSize - 1] = *pShoppingitem;
+	// temp->itemsArr[pShoppingCart->shoppingCartSize] = pShoppingitem; // TODO
+	pShoppingCart->shoppingCartSize++;
 }

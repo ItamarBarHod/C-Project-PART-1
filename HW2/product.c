@@ -2,12 +2,12 @@
 
 void printProduct(const Product* pProduct) // CHECK WORKS PROPERLY
 {
-	printf("%s %s %s %f %d\n", pProduct->productName, pProduct->barcode, productTypes[pProduct->type], pProduct->price, pProduct->stock);
+	printf("%s %s %s %.2f %d\n", pProduct->productName, pProduct->barcode, productTypes[pProduct->type], pProduct->price, pProduct->stock);
 }
 void insertProductData(Product* pProduct, char* barcode)
 {
 	printf("please enter a product name, maximum size %d\n", PRODUCT_SIZE - 1);
-	getNameFromUser(pProduct->productName, PRODUCT_SIZE);
+	pProduct->productName = getNameFromUser(PRODUCT_SIZE);
 	pProduct->barcode = barcode;
 	pProduct->type = getProductTypeFromUser();
 	printf("please enter the price\n");

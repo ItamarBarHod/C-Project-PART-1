@@ -10,5 +10,5 @@ typedef struct {
 }Shoppingitem;
 
 void printShoppingItem(const Shoppingitem* pShoppingItem);
-void initShoppingItem(Shoppingitem* pShoppingItem);
+Shoppingitem* initShoppingItem();
 void insertShoppingItem(Shoppingitem* pShoppingItem);
