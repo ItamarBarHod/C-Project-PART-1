@@ -31,19 +31,20 @@ float getNumberFromUser()
 char* getNameFromUser(int maxStrSize)
 {
 	char temp[MAX_SIZE];
-	char* str;
+	char* str = NULL;
 	do {
 		fgets(temp, maxStrSize, stdin);
-		str = _strdup(temp);
+		/*str = _strdup(temp);
 		int tempSize = (int)strlen(temp);
 		printf("name size: %d\n", tempSize);
-		str[tempSize] = '\0';
+		str[tempSize] = '\0';*/
 		if (temp == NULL)
 		{
 			printf("Please re-enter\n");
 		}
 	} while (temp == NULL);
-	printf("%s", str);
+	str = _strdup(temp);
+	str[strlen(temp) - 1] = '\0';
 	return str;
 }
 
