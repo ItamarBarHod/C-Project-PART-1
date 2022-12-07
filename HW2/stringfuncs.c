@@ -2,6 +2,10 @@
 
 int isValidBarcode(const char* str)
 {
+	if (strlen(str) == 1) // buffer fix 
+	{
+		return 0;
+	}
 	int digits = checkDigitsAmount(str);
 	if ((digits > 5 || digits < 3) || (int)strlen(str) != BARCODE_SIZE - 1 || isLowercase(str) || !isValidCharacterPosition(str) || !IsAlphanumeric(str))
 	{

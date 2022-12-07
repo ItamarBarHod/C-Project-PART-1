@@ -28,6 +28,7 @@ void printMarket(const Supermarket* pSupermarket) // TODO
 	{
 		printProduct(pSupermarket->productArr[i]);
 	}
+	printf("\nNumber of customers: %d\n", pSupermarket->customerArrSize);
 	if (pSupermarket->customerArrSize > 0)
 	{
 		printCustomers(pSupermarket);
@@ -115,15 +116,16 @@ void customerShopping(Supermarket* pSupermarket)
 		printf("No products exist yet, returning\n");
 		return;
 	}
-	if (checkSupermarketStock == 0)
+	if (checkSupermarketStock(pSupermarket) == 0)
 	{
 		printf("No stock is available\n");
 		return;
 	}
+
 	if (pSupermarket->customerArrSize > 0)
 	{
 		printMarket(pSupermarket);
-		printf("please enter customer name to start shopping\n");
+		printf("Please enter customer name to start shopping\n");
 		char* ShoppingCustomerName = getCustomerNameToShop(pSupermarket);
 		customerShoppingHelper(pSupermarket, ShoppingCustomerName);
 	}
@@ -148,18 +150,17 @@ void customerShoppingHelper(Supermarket* pSupermarket, const char* customerName)
 	{
 		printf("Out of stock! returning\n");
 	}
-	printf("Please enter the product barcode to purchase\n");
-	char* barcode = getBarcodeFromUser();
-	int barcodePosition = getBarcodePosition(pSupermarket, barcode);
+	int barcodePosition = getValidBarcodePosition(pSupermarket);
 	int numberToPurchase;
+	int itemStock = pSupermarket->productArr[barcodePosition]->stock;
 	do {
-		printf("Please enter the amount to buy, cant be more than %d", pSupermarket->productArr[barcodePosition]->stock);
+		printf("Please enter the amount to buy, cant be more than %d (or less than 0)\n", itemStock);
 		numberToPurchase = getNumberFromUser();
-	} while (numberToPurchase <= pSupermarket->productArr[barcodePosition]->stock);
+	} while (numberToPurchase > itemStock || numberToPurchase < 0);
 
 	pSupermarket->productArr[barcodePosition]->stock -= numberToPurchase; // reduce from stock
 
-	printf("Would you like to continue purchasing?");
+	printf("Would you like to continue purchasing?\n");
 	int proceedShopping = askUserToContinue();
 	if (proceedShopping)
 	{
@@ -167,15 +168,31 @@ void customerShoppingHelper(Supermarket* pSupermarket, const char* customerName)
 	}
 }
 
+int getValidBarcodePosition(const Supermarket* pSupermarket)
+{
+	int barcodePosition;
+	do {
+		char* barcode = getBarcodeFromUser();
+		barcodePosition = getBarcodePosition(pSupermarket, barcode);
+		if (barcodePosition == -1) // check exists
+		{
+			printf("Barcode does not exist! please re-enter\n");
+		}
+	} while (barcodePosition == -1);
+	return barcodePosition;
+}
+
 int getBarcodePosition(const Supermarket* pSupermarket, const char* barcode)
 {
 	for (int i = 0; i < pSupermarket->productArrSize; i++)
 	{
-		if (pSupermarket->productArr[i]->barcode == barcode)
+		int equal = strcmp(pSupermarket->productArr[i]->barcode, barcode);
+		if (equal == 0)
 		{
 			return i;
 		}
 	}
+	return -1;
 }
 
 char* getCustomerNameToShop(const Supermarket* pSupermarket)

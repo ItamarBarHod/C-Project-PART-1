@@ -34,15 +34,11 @@ char* getNameFromUser(int maxStrSize)
 	char* str = NULL;
 	do {
 		fgets(temp, maxStrSize, stdin);
-		/*str = _strdup(temp);
-		int tempSize = (int)strlen(temp);
-		printf("name size: %d\n", tempSize);
-		str[tempSize] = '\0';*/
 		if (temp == NULL)
 		{
 			printf("Please re-enter\n");
 		}
-	} while (temp == NULL);
+	} while (temp == NULL || strlen(temp) == 1);
 	str = _strdup(temp);
 	str[strlen(temp) - 1] = '\0';
 	return str;
@@ -55,13 +51,10 @@ char* getBarcodeFromUser()
 	char* barcode;
 	do {
 		fgets(temp, BARCODE_SIZE, stdin);
-		barcode = _strdup(temp);
-		int tempSize = (int)strlen(temp);
-		barcode[strlen(temp)] = '\0';
-		printf("barcode size: %d\n", (int)strlen(barcode));
 		validBarcode = isValidBarcode(temp);
-	} while (!validBarcode || temp == NULL);
-	printf("%s", barcode);
+	} while (!validBarcode || temp == NULL || strlen(temp) == 1);
+	barcode = _strdup(temp);
+	barcode[strlen(temp)] = '\0';
 	return barcode;
 }
 
@@ -82,8 +75,8 @@ int askUserToContinue()
 	printf("enter Y/y to continue, else enter a random character\n");
 	char answer;
 	do {
-		answer = getchar();
-	} while (answer == '\0');
+		answer = fgetc(stdin);
+	} while (answer == '\n' || answer == '\0');
 	if (answer == 'y' || answer == 'Y')
 	{
 		return 1;

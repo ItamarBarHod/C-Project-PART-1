@@ -30,6 +30,7 @@ void printProductType(const Supermarket* pSupermarket);
 void customerCheckout(const Supermarket* pSupermarket, const char* name, int customerPos);
 int checkProductExists(const Supermarket* pSupermarket, const char* barcode, int* productPos);
 int checkCustomerExists(const Supermarket* pSupermarket, char* pCustomerName, int* customerPos);
+int getValidBarcodePosition(const Supermarket* pSupermarket);
 char* getCustomerNameToShop(const Supermarket* pSupermarket);
 int checkSupermarketStock(const Supermarket* pSupermarket);
 void deleteSuperMarket(Supermarket* pSupermarket);
