@@ -146,7 +146,7 @@ int checkSupermarketStock(const Supermarket* pSupermarket)
 
 void customerShoppingHelper(Supermarket* pSupermarket, const char* customerName)
 {
-	if (checkSupermarketStock == 0)
+	if (checkSupermarketStock(pSupermarket) == 0)
 	{
 		printf("Out of stock! returning\n");
 	}
@@ -171,6 +171,7 @@ void customerShoppingHelper(Supermarket* pSupermarket, const char* customerName)
 int getValidBarcodePosition(const Supermarket* pSupermarket)
 {
 	int barcodePosition;
+	printf("Please enter a the product's barcode\n");
 	do {
 		char* barcode = getBarcodeFromUser();
 		barcodePosition = getBarcodePosition(pSupermarket, barcode);
