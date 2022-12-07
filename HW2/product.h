@@ -23,3 +23,5 @@ typedef struct {
 void printProduct(const Product* pProduct);
 void insertProductData(Product* pProduct, char* barcode);
 Product* initProduct();
+void freeProduct(Product* pProduct);
+void printBarcodeInstructions();

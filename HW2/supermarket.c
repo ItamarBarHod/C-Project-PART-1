@@ -38,65 +38,96 @@ void printMarket(const Supermarket* pSupermarket) // TODO
 
 void addProduct(Supermarket* pSupermarket)
 {
-	printf("Enter product barcode Code should be of 7 length exactly\n");
-	printf("UPPER CASE letter and digits\n");
-	printf("Must have 3 to 5 digits\n");
-	printf("First and last chars must be UPPER CASE letter\n");
-	printf("For example A12B40C\n\n");
-	char* barcode = getBarcodeFromUser();
-	int productPos;
-	int productExists = checkProductExists(pSupermarket, barcode, &productPos);
-	if (productExists)
+	Product* tempProduct = initProduct();
+	if (tempProduct == NULL)
 	{
-		printf("Product with barcode %s already exists under the name: %s\n", barcode, pSupermarket->productArr[productPos]->productName);
-		printf("Type amount to add to product:\n");
-		int addAmount = (int)getNumberFromUser();
-		pSupermarket->productArr[productPos]->stock += addAmount;
+		printf("MEMORY ERROR\n");
+		return;
 	}
-	else
+	printBarcodeInstructions();
+	tempProduct->barcode = getBarcodeFromUser();
+	if (tempProduct->barcode == NULL)
 	{
-		printf("Adding product with barcode %s:\n", barcode);
-		addProductHelper(pSupermarket, barcode);
+		printf("MEMORY ERROR\n");
+		return;
 	}
+	Product* prodExist = checkProductExists(pSupermarket, tempProduct); // doesnt malloc
+	if (prodExist != NULL) // If exists
+	{
+		productExists(pSupermarket, prodExist); // add amount to existing
+		freeProduct(tempProduct);
+		return;
+	}
+	printf("Adding product with barcode %s:\n", tempProduct->barcode);
+	addProductHelper(pSupermarket, tempProduct); // add new product
 }
 
-void addProductHelper(Supermarket* pSupermarket, const char* barcode)
+void productExists(Supermarket* pSupermarket, Product* pProduct)
 {
-	Product* tempProduct = initProduct();
-	insertProductData(tempProduct, barcode);
+	printf("Product with barcode %s already exists under the name: %s\n", pProduct->barcode, pProduct->productName);
+	printf("Type amount to add to product:\n");
+	int addAmount = (int)getNumberFromUser();
+	int productPosition = getProductPosition(pSupermarket, pProduct);
+	pSupermarket->productArr[productPosition]->stock += addAmount;
+}
+
+int getProductPosition(Supermarket* pSupermarket, Product* pProduct)
+{
+	for (int i = 0; i < pSupermarket->productArrSize; i++)
+	{
+		int equal = strcmp(pSupermarket->productArr[i]->barcode, pProduct->barcode);
+		if (equal == 0)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+void addProductHelper(Supermarket* pSupermarket, Product* pProduct)
+{
+	insertProductData(pProduct, pProduct->barcode);
 	int arrSize = pSupermarket->productArrSize;
-	Product** initProdArr = (Product**)realloc(pSupermarket->productArr, (arrSize + 1) * sizeof(Product*));
-	if (initProdArr == NULL)
+	Product** productArr = (Product**)realloc(pSupermarket->productArr, (arrSize + 1) * sizeof(Product*));
+	if (productArr == NULL)
 	{
 		printf("MEMORY ERROR!\n");
 		return;
 	}
-	*(initProdArr + pSupermarket->productArrSize) = tempProduct;
-	pSupermarket->productArr = initProdArr;
+	productArr[arrSize] = pProduct;
 	pSupermarket->productArrSize++;
+	pSupermarket->productArr = productArr;
 }
 
 void addCustomer(Supermarket* pSupermarket)
 {
+	Customer* tempCustomer = initCustomer();
+	if (tempCustomer == NULL)
+	{
+		printf("MEMORY ERROR\n");
+		return;
+	}
 	printf("Enter customer name\n");
-	char* name = getNameFromUser(MAX_SIZE);
-	int customerExists = checkCustomerExists(pSupermarket, name, NULL);
-	if (customerExists)
+	tempCustomer->name = getNameFromUser(MAX_SIZE);
+	if (tempCustomer->name == NULL)
+	{
+		printf("MEMORY ERROR\n");
+		return;
+	}
+	Customer* custExists = checkCustomerExists(pSupermarket, tempCustomer); // doesnt malloc
+	if (custExists != NULL) // exists
 	{
 		printf("Customer with this name already exists, returning\n");
+		freeCustomer(tempCustomer);
+		return;
 	}
-	else
-	{
-		printf("Added customer: %s\n", name);
-		addCustomerHelper(pSupermarket, name);
-	}
-	return;
+	addCustomerHelper(pSupermarket, tempCustomer); // add new customer
 }
 
-void addCustomerHelper(Supermarket* pSupermarket, const char* name)
+void addCustomerHelper(Supermarket* pSupermarket, Customer* pCustomer)
 {
-	Customer* customer = initCustomer();
-	insertCustomerData(customer, name);
+	Customer* customertoAdd = initCustomer();
+	insertCustomerData(customertoAdd, pCustomer->name);
 	int arrSize = pSupermarket->customerArrSize;
 	Customer* tempArr = (Customer*)realloc(pSupermarket->customerArr, (arrSize + 1) * sizeof(Customer));
 	if (tempArr == NULL)
@@ -104,34 +135,34 @@ void addCustomerHelper(Supermarket* pSupermarket, const char* name)
 		printf("MEMORY ERROR!\n");
 		return;
 	}
-	*(tempArr + arrSize) = *customer;
+	*(tempArr + arrSize) = *customertoAdd;
 	pSupermarket->customerArr = tempArr;
 	pSupermarket->customerArrSize++;
+	printf("Added customer: %s\n", pCustomer->name);
 }
 
 void customerShopping(Supermarket* pSupermarket)
 {
-	if (pSupermarket->productArrSize == 0)
+	if (!validMarket(pSupermarket)) // check can buy
 	{
-		printf("No products exist yet, returning\n");
 		return;
 	}
-	if (checkSupermarketStock(pSupermarket) == 0)
+	printMarket(pSupermarket);
+	printf("Please enter customer name to start shopping\n");
+	Customer* shoppingCustomer = initCustomer();
+	if (shoppingCustomer == NULL)
 	{
-		printf("No stock is available\n");
+		printf("MEMORY ERROR\n");
 		return;
 	}
-
-	if (pSupermarket->customerArrSize > 0)
+	shoppingCustomer->name = getNameFromUser(MAX_SIZE);
+	if (shoppingCustomer->name == NULL)
 	{
-		printMarket(pSupermarket);
-		printf("Please enter customer name to start shopping\n");
-		char* ShoppingCustomerName = getCustomerNameToShop(pSupermarket);
-		customerShoppingHelper(pSupermarket, ShoppingCustomerName);
+		printf("MEMORY ERROR\n");
+		return;
 	}
-	else {
-		printf("No customers exist yet! returning\n");
-	}
+	customerShoppingHelper(pSupermarket, shoppingCustomer);
+	freeCustomer(shoppingCustomer);
 }
 
 int checkSupermarketStock(const Supermarket* pSupermarket)
@@ -144,23 +175,23 @@ int checkSupermarketStock(const Supermarket* pSupermarket)
 	return stockCounter;
 }
 
-void customerShoppingHelper(Supermarket* pSupermarket, const char* customerName)
+void customerShoppingHelper(Supermarket* pSupermarket, Customer* pCustomer)
 {
 	if (checkSupermarketStock(pSupermarket) == 0)
 	{
 		printf("Out of stock! returning\n");
 		return;
 	}
-	int barcodePosition = getValidBarcodePosition(pSupermarket);
+
+	int productPosition = getValidBarcodeAndPosition(pSupermarket);
 	int numberToPurchase;
-	int itemStock = pSupermarket->productArr[barcodePosition]->stock;
+	int itemStock = pSupermarket->productArr[productPosition]->stock;
 	do {
 		printf("Please enter the amount to buy, cant be more than %d (or less than 0)\n", itemStock);
 		numberToPurchase = getNumberFromUser();
 	} while (numberToPurchase > itemStock || numberToPurchase < 0);
 
-	pSupermarket->productArr[barcodePosition]->stock -= numberToPurchase; // reduce from stock
-
+	putItemInCustomerCart(pSupermarket, numberToPurchase, productPosition, customerName);
 	printf("Would you like to continue purchasing?\n");
 	int proceedShopping = askUserToContinue();
 	if (proceedShopping)
@@ -169,7 +200,23 @@ void customerShoppingHelper(Supermarket* pSupermarket, const char* customerName)
 	}
 }
 
-int getValidBarcodePosition(const Supermarket* pSupermarket)
+void putItemInCustomerCart(Supermarket* pSupermarket, int numberToPurchase, int productPosition, char* customerName)
+{
+	pSupermarket->productArr[productPosition]->stock -= numberToPurchase; // reduce from stock
+	int customerPos;
+	printf("errorne\n");
+	const char* barcode = pSupermarket->productArr[productPosition]->barcode;
+	printf("errorke\n");
+	int answer = checkCustomerExists(pSupermarket, customerName, &customerPos);
+	printf("error1\n");
+	int productPos = getProductPos(pSupermarket, barcode);
+	printf("error2\n");
+	Product tempProd = *pSupermarket->productArr[productPos];
+	printf("debug?\n");
+	addItemToCart(&pSupermarket->customerArr[customerPos].cart, &tempProd);
+}
+
+int getValidBarcodeAndPosition(const Supermarket* pSupermarket)
 {
 	int barcodePosition;
 	printf("Please enter a the product's barcode\n");
@@ -197,19 +244,44 @@ int getBarcodePosition(const Supermarket* pSupermarket, const char* barcode)
 	return -1;
 }
 
-char* getCustomerNameToShop(const Supermarket* pSupermarket)
+int validMarket(Supermarket* pSupermarket)
 {
-	char* shoppingCustomerName = NULL;
-	int validName;
+	if (pSupermarket->productArrSize == 0)
+	{
+		printf("No products exist yet, returning\n");
+		return 0;
+	}
+	if (checkSupermarketStock(pSupermarket) == 0)
+	{
+		printf("No stock is available\n");
+		return 0;
+	}
+	if (pSupermarket->customerArrSize == 0)
+	{
+		printf("No cusomters exist yet, returning\n");
+		return 0;
+	}
+	return 1;
+}
+
+Customer* getCustomerToShop(const Supermarket* pSupermarket)
+{
+	Customer* shoppingCustomer = initCustomer();
 	do {
-		char* shoppingCustomerName = getNameFromUser(MAX_SIZE);
-		printf("%s\n", shoppingCustomerName);
-		validName = checkCustomerExists(pSupermarket, shoppingCustomerName, NULL);
-		if (!validName)
+		shoppingCustomer->name = getNameFromUser(MAX_SIZE);
+		if (shoppingCustomer->name == NULL)
+		{
+			printf("MEMORY ERROR\n");
+			return NULL;
+		}
+		printf("%s\n", shoppingCustomer->name);
+		Customer* tempCustomer = checkCustomerExists(pSupermarket, shoppingCustomer);
+		if (tempCustomer == NULL)
 		{
 			printf("Invalid name, please enter a customer that exists\n");
 		}
-	} while (!validName);
+	} while (!shoppingCustomer);
+	return shoppingCustomer;
 }
 
 void printCustomerShoppingCart(const Supermarket* pSupermarket)
@@ -252,10 +324,10 @@ void customerPay(const Supermarket* pSupermarket)
 		printf("no customers exist yet\n");
 		return;
 	}
+	Customer* tempCustomer = initCustomer();
+	insertCustomerData(tempCustomer);
 	printf("enter customer name:\n");
-	printCustomers(pSupermarket);
 	char* name = getNameFromUser(MAX_SIZE);
-	int customerPos;
 	int customerExists = checkCustomerExists(pSupermarket, name, &customerPos);
 	if (!customerExists)
 	{
@@ -272,7 +344,6 @@ void customerPay(const Supermarket* pSupermarket)
 			printf("This customer has no items yet, returning to main menu\n");
 		}
 	}
-	return;
 }
 
 void customerCheckout(const Supermarket* pSupermarket, const char* name, int customerPos)
@@ -282,15 +353,16 @@ void customerCheckout(const Supermarket* pSupermarket, const char* name, int cus
 	printf("Price: %lf\n", calcShoppingCart(&pSupermarket->customerArr[customerPos].cart));
 }
 
-int getProductPos(const Supermarket* pSupermarket, const Shoppingitem item)
+int getProductPos(const Supermarket* pSupermarket, const char* barcode)
 {
 	for (int i = 0; i < pSupermarket->productArrSize; i++)
 	{
-		if (pSupermarket->productArr[i]->barcode == item.barcode)
+		if (pSupermarket->productArr[i]->barcode == barcode)
 		{
 			return i;
 		}
 	}
+	return -1;
 }
 
 void printProductType(const Supermarket* pSupermarket)
@@ -301,53 +373,52 @@ void printProductType(const Supermarket* pSupermarket)
 		return;
 	}
 	int type = getProductTypeFromUser();
-	printf("Product Name ------------ | BARCODE | Type  -------- | Price ------ | Stock \n");
-	printf("----------------------------------------------------------------------------\n");
 	printf("Printing product of type: %s\n", productTypes[type]);
+	printProductTypeHelper(pSupermarket, type);
+}
+
+void printProductTypeHelper(Supermarket* pSupermarket, int type)
+{
+	int counter = 0;
 	for (int i = 0; i < pSupermarket->productArrSize; i++)
 	{
 		if (pSupermarket->productArr[i]->type == type)
 		{
 			printProduct(pSupermarket->productArr[i]);
+			counter++;
 		}
+	}
+	if (counter == 0)
+	{
+		printf("No products of type %s exist yet\n", productTypes[type]);
 	}
 	printf("\n");
 }
 
-int checkProductExists(const Supermarket* pSupermarket, const char* barcode, int* productPos)
+Product* checkProductExists(const Supermarket* pSupermarket, Product* pProduct)
 {
 	for (int i = 0; i < pSupermarket->productArrSize; i++)
 	{
-		int compare = strcmp(pSupermarket->productArr[i]->barcode, barcode);
+		int compare = strcmp(pSupermarket->productArr[i]->barcode, pProduct->barcode);
 		if (compare == 0) // equal
 		{
-			*productPos = i; // check if works, else put if
-			return 1;
+			return pSupermarket->productArr[i];
 		}
 	}
-	return 0;
+	return NULL;
 }
 
-int checkCustomerExists(const Supermarket* pSupermarket, char* pCustomerName, int* customerPos)
+Customer* checkCustomerExists(const Supermarket* pSupermarket, Customer* pCustomer)
 {
-	char* customerTemp = pCustomerName;
-	customerTemp = _strlwr(customerTemp);
 	for (int i = 0; i < pSupermarket->customerArrSize; i++)
 	{
-		char* existTemp = pSupermarket->customerArr[i].name;
-		existTemp = _strlwr(existTemp);
-		int compare = strcmp(existTemp, customerTemp); // check ABC != abc
-		if (compare == 0) // equal
+		int equal = strcmp(pSupermarket->customerArr[i].name, pCustomer->name);
+		if (equal == 0) // equal
 		{
-			if (customerPos == NULL)
-			{
-				return 1;
-			}
-			*customerPos = i;
-			return 1;
+			return &pSupermarket->customerArr[i];
 		}
 	}
-	return 0;
+	return NULL;
 }
 
 void deleteSuperMarket(Supermarket* pSupermarket)

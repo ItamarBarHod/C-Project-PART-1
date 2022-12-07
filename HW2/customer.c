@@ -18,8 +18,13 @@ Customer* initCustomer()
 	return tempCustomer;
 }
 
-void insertCustomerData(Customer* pCustomer, char* name)
+void insertCustomerData(Customer* pCustomer, const char* name)
 {
 	pCustomer->name = name;
 	initShoppingCart(&pCustomer->cart);
+}
+
+void freeCustomer(Customer* pCustomer)
+{
+	free(pCustomer->name);
 }

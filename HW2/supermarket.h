@@ -28,15 +28,20 @@ void printProductType(const Supermarket* pSupermarket);
 
 // extra / helpers
 void customerCheckout(const Supermarket* pSupermarket, const char* name, int customerPos);
-int checkProductExists(const Supermarket* pSupermarket, const char* barcode, int* productPos);
-int checkCustomerExists(const Supermarket* pSupermarket, char* pCustomerName, int* customerPos);
-int getValidBarcodePosition(const Supermarket* pSupermarket);
-char* getCustomerNameToShop(const Supermarket* pSupermarket);
+void productExists(Supermarket* pSupermarket, Product* pProduct);
+Product* checkProductExists(const Supermarket* pSupermarket, Product* pProduct);
+int getProductPosition(Supermarket* pSupermarket, Product* pProduct);
+Customer* checkCustomerExists(const Supermarket* pSupermarket, Customer* pCustomer);
+int getValidBarcodeAndPosition(const Supermarket* pSupermarket);
+Customer* getCustomerToShop(const Supermarket* pSupermarket);
+int validMarket(Supermarket* pSupermarket);
+void putItemInCustomerCart(Supermarket* pSupermarket, int numberToPurchase, int barcodePosition, char* customerName);
 int checkSupermarketStock(const Supermarket* pSupermarket);
 void deleteSuperMarket(Supermarket* pSupermarket);
-void customerShoppingHelper(Supermarket* pSupermarket, const char* customerName);
-void addProductHelper(Supermarket* pSupermarket, const char* barcode);
-void addCustomerHelper(Supermarket* pSupermarket, const char* name);
+void customerShoppingHelper(Supermarket* pSupermarket, char* customerName);
+void addProductHelper(Supermarket* pSupermarket, Product* pProduct);
+void addCustomerHelper(Supermarket* pSupermarket, Customer* pCustomer);
 int getBarcodePosition(const Supermarket* pSupermarket, const char* barcode);
-int getProductPos(const Supermarket* pSupermarket, const Shoppingitem item);
+int getProductPos(const Supermarket* pSupermarket, const char* barcode);
+void printProductTypeHelper(Supermarket* pSupermarket, int type);
 void printCustomers(const Supermarket* pSupermarket);

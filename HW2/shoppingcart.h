@@ -9,7 +9,7 @@ typedef struct {
 }Shoppingcart;
 
 void printShoppingCart(const Shoppingcart* pShoppingCart);
-void addItemToCart(Shoppingcart* pShoppingCart, const Shoppingitem* pShoppingitem);
+void addItemToCart(Shoppingcart* pShoppingCart, Product* pProduct);
 double calcShoppingCart(const Shoppingcart* pShoppingCart);
 void deleteShoppingCart(Shoppingcart* pShoppingCart);
 Shoppingcart* initShoppingCart();

@@ -28,3 +28,19 @@ Product* initProduct()
 	tempProd->productName = NULL;
 	return tempProd;
 }
+
+void freeProduct(Product* pProduct)
+{
+	free(pProduct->barcode);
+	free(pProduct->productName);
+	pProduct = NULL;
+}
+
+void printBarcodeInstructions()
+{
+	printf("Enter product barcode Code should be of 7 length exactly\n");
+	printf("UPPER CASE letter and digits\n");
+	printf("Must have 3 to 5 digits\n");
+	printf("First and last chars must be UPPER CASE letter\n");
+	printf("For example A12B40C\n\n");
+}

@@ -43,15 +43,17 @@ void deleteShoppingCart(Shoppingcart* pShoppingCart)
 	pShoppingCart = NULL;
 }
 
-void addItemToCart(Shoppingcart* pShoppingCart, const Shoppingitem* pShoppingitem) // check works
+void addItemToCart(Shoppingcart* pShoppingCart, Product* pProduct) // check works
 {
 	int cartSize = pShoppingCart->shoppingCartSize;
-	Shoppingcart* temp = (Shoppingcart*)realloc(pShoppingCart, (cartSize + 1) * sizeof(Shoppingitem*));
+	Shoppingitem* temp = (Shoppingitem*)realloc(pShoppingCart, (cartSize + 1) * sizeof(Shoppingitem*));
 	if (temp == NULL)
 	{
 		printf("MEMORY ERROR\n");
 		return;
 	}
-	// temp->itemsArr[pShoppingCart->shoppingCartSize] = pShoppingitem; // TODO
-	pShoppingCart->shoppingCartSize++;
+	temp[cartSize].barcode = pProduct->barcode;
+	temp[cartSize].amount = pProduct->stock;
+	temp[cartSize].price = pProduct->price;
+	pShoppingCart->itemsArr = temp;
 }
