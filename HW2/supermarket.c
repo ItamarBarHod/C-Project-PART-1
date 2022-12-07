@@ -149,6 +149,7 @@ void customerShoppingHelper(Supermarket* pSupermarket, const char* customerName)
 	if (checkSupermarketStock(pSupermarket) == 0)
 	{
 		printf("Out of stock! returning\n");
+		return;
 	}
 	int barcodePosition = getValidBarcodePosition(pSupermarket);
 	int numberToPurchase;
