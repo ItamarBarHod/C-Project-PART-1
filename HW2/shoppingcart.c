@@ -38,7 +38,7 @@ void deleteShoppingCart(Shoppingcart* pShoppingCart)
 {
 	for (int i = 0; i < pShoppingCart->shoppingCartSize; i++)
 	{
-		freeShoppingItem(&pShoppingCart->itemsArr[i]);
+		free(&pShoppingCart->itemsArr[i]);
 	}
 	pShoppingCart->shoppingCartSize = 0;
 }
