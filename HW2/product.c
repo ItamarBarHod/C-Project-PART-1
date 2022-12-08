@@ -29,7 +29,6 @@ Product* createNewProduct()
 		printf("MEMORY ERROR\n");
 		return NULL;
 	}
-	printf("Add barcode please\n");
 	printBarcodeInstructions();
 	tempProd->barcode = getBarcodeFromUser(PRODUCT_SIZE);
 	if (tempProd->barcode == NULL)
@@ -44,8 +43,11 @@ Product* createNewProduct()
 void freeProduct(Product* pProduct)
 {
 	free(pProduct->barcode);
+	if (pProduct->productName == NULL)
+	{
+		return;
+	}
 	free(pProduct->productName);
-	pProduct = NULL;
 }
 
 void printBarcodeInstructions()

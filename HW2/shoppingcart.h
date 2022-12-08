@@ -4,7 +4,7 @@
 #include "shoppingitem.h"
 
 typedef struct {
-	Shoppingitem* itemsArr;
+	Shoppingitem** itemsArr;
 	int shoppingCartSize;
 }Shoppingcart;
 

@@ -34,13 +34,13 @@ char* getNameFromUser(int maxStrSize)
 	char* str = NULL;
 	do {
 		fgets(temp, maxStrSize, stdin);
-		if (temp == NULL)
-		{
-			printf("MEMORY ERROR\n");
-			return NULL;
-		}
 	} while (temp == NULL || strlen(temp) == 1);
 	str = _strdup(temp); // malloc
+	if (str == NULL)
+	{
+		printf("MEMORY ERROR\n");
+		return NULL;
+	}
 	str[strlen(temp) - 1] = '\0';
 	return str;
 }

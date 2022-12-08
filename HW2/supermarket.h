@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "product.h"
 #include "customer.h"
+#include "stringfuncs.h"
 #include "address.h"
 
 
@@ -38,12 +39,12 @@ void addStockToProduct(Supermarket* pSupermarket, Product* pProduct);
 void addCustomerHelper(Supermarket* pSupermarket, Customer* pCustomer);
 // 4: customerShopping
 void customerShoppingHelper(Supermarket* pSupermarket, Customer* pCustomer);
-int getValidBarcodeAndPos(const Supermarket* pSupermarket);
-int checkBarcodeExists(const Supermarket* pSupermarket, const char* barcode);
-void putItemInCustomerCart(Supermarket* pSupermarket, const Customer* pCustomer, int numberToPurchase, int productPos);
+int getAmountToBuyFromUser(const Supermarket* pSupermarket, const Product* pProduct);
+Product* getExistingProductFromUser(const Supermarket* pSupermarket);
+void putItemInCustomerCart(Supermarket* pSupermarket, const Customer* pCustomer, Product* pProduct, int amount);
 // 5: printCustomerShoppingCart - none
 // 6: customerCheckout
-void customerCheckoutHelper(const Supermarket* pSupermarket, Customer* pCustomer);
+void customerCheckoutHelper(const Supermarket* pSupermarket, const Customer* pCustomer);
 // 7: printProductType
 void printProductTypeHelper(const Supermarket* pSupermarket, int type);
 

@@ -16,3 +16,8 @@ Shoppingitem* initShoppingItem()
 	tempItem->barcode = NULL;
 	return tempItem;
 }
+
+void freeShoppingItem(Shoppingitem* pShoppingItem)
+{
+	free(pShoppingItem->barcode);
+}

@@ -27,7 +27,6 @@ Customer* createNewCustomer()
 		printf("MEMORY ERROR\n");
 		return NULL;
 	}
-	initShoppingCart(&tempCustomer->cart);
 	return tempCustomer;
 }
 
