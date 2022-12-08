@@ -6,13 +6,11 @@ void createSuperMarket(Supermarket* pSupermarket)
 	pSupermarket->marketName = getNameFromUser(MAX_SIZE);
 	if (pSupermarket->marketName == NULL)
 	{
-		printf("MEMORY ERROR\n");
 		return;
 	}
 	// pSupermarket->marketAddress = *getAddressData();
 	//if (&pSupermarket->marketAddress == NULL)
 	//{
-	//	printf("MEMORY ERROR\n");
 	//	return;
 	//}
 	pSupermarket->customerArr = NULL;
@@ -28,7 +26,7 @@ void printMarket(const Supermarket* pSupermarket) // TODO
 		printf("Error: no products exist yet\n");
 		return;
 	}
-	printf("Market name: %s \n", pSupermarket->marketName);
+	printf("Market name: %s |-| ", pSupermarket->marketName);
 	//printAddress(&pSupermarket->marketAddress);
 	printf("Product Name ------------ | BARCODE | Type  -------- | Price ------ | Stock \n");
 	printf("----------------------------------------------------------------------------\n");
@@ -67,7 +65,6 @@ void addProductHelper(Supermarket* pSupermarket, Product* pProduct)
 	insertProductData(pProduct);
 	if (pProduct->productName == NULL)
 	{
-		printf("MEMORY ERROR\n");
 		freeProduct(pProduct);
 		return;
 	}
@@ -436,7 +433,8 @@ Customer* checkCustomerExists(const Supermarket* pSupermarket, const Customer* p
 void deleteSuperMarket(Supermarket* pSupermarket)
 {
 	free(pSupermarket->marketName); // name
-	for (int i = 0; i < pSupermarket->customerArrSize; i++) // customers
+	// freeAddress(pSupermarket->marketAddress);
+	for (int i = 0; i < pSupermarket->customerArrSize; i++) // customers and shopping items
 	{
 		freeCustomer(&pSupermarket->customerArr[i]);
 	}
@@ -444,5 +442,5 @@ void deleteSuperMarket(Supermarket* pSupermarket)
 	{
 		freeProduct(pSupermarket->productArr[i]);
 	}
-	freeProduct(*pSupermarket->productArr);
+	free(pSupermarket->productArr);
 }

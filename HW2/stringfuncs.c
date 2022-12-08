@@ -6,7 +6,7 @@ int isValidBarcode(const char* str)
 	{
 		return 0;
 	}
-	int digits = checkDigitsAmount(str);
+	int digits = checkDigitsCount(str);
 	if ((digits > 5 || digits < 3) || (int)strlen(str) != BARCODE_SIZE - 1 || isLowercase(str) || !isValidCharacterPosition(str) || !IsAlphanumeric(str))
 	{
 		printf("Bad Barcode! Please follow the rules\n");
@@ -15,7 +15,20 @@ int isValidBarcode(const char* str)
 	return 1;
 }
 
-int checkDigitsAmount(const char* str)
+int isValidAddressFormat(const char* str)
+{
+	int validTokenFormat = validTokens(str);
+	int validSections = isValidAddressSections(str);
+	if (validTokenFormat && validSections)
+	{
+		return 1;
+	}
+	printf("invalid address format, please re-enter\n");
+	printf("example: vitkin#9#herzelia\n");
+	return 0;
+}
+
+int checkDigitsCount(const char* str)
 {
 	int counter = 0;
 	while (*str)
@@ -44,7 +57,7 @@ int isLowercase(const char* str)
 
 int isValidCharacterPosition(const char* str)
 {
-	return (isupper(*str) && isupper(*(str + BARCODE_SIZE - 2))); // First and last chars
+	return (isupper(*str) && isupper(str[BARCODE_SIZE - 2])); // First and last chars
 }
 
 int IsAlphanumeric(const char* str)
@@ -58,19 +71,6 @@ int IsAlphanumeric(const char* str)
 		str++;
 	}
 	return 1;
-}
-
-int isValidAddressFormat(const char* str)
-{
-	int validTokenFormat = (validTokens(str));
-	int validSections = isValidAddressSections(str);
-	if (validTokenFormat && validSections)
-	{
-		return 1;
-	}
-	printf("invalid address format, please re-enter\n");
-	printf("example: etrog street#65#ganei am\n");
-	return 0;
 }
 
 int isValidAddressSections(const char* str) // split to 3 sections and check

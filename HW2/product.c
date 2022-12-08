@@ -11,7 +11,6 @@ void insertProductData(Product* pProduct)
 	pProduct->productName = getNameFromUser(PRODUCT_SIZE);
 	if (pProduct->productName == NULL)
 	{
-		printf("MEMORY ERROR\n");
 		return;
 	}
 	pProduct->type = getProductTypeFromUser();
@@ -33,7 +32,6 @@ Product* createNewProduct()
 	tempProd->barcode = getBarcodeFromUser(PRODUCT_SIZE);
 	if (tempProd->barcode == NULL)
 	{
-		printf("MEMORY ERROR\n");
 		return NULL;
 	}
 	tempProd->productName = NULL;
@@ -43,10 +41,6 @@ Product* createNewProduct()
 void freeProduct(Product* pProduct)
 {
 	free(pProduct->barcode);
-	if (pProduct->productName == NULL)
-	{
-		return;
-	}
 	free(pProduct->productName);
 }
 

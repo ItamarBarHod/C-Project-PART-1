@@ -55,6 +55,11 @@ char* getBarcodeFromUser()
 		validBarcode = isValidBarcode(temp);
 	} while (!validBarcode || temp == NULL || strlen(temp) == 1);
 	barcode = _strdup(temp); // malloc
+	if (barcode == NULL)
+	{
+		printf("MEMORY ERROR\n");
+		return NULL;
+	}
 	barcode[strlen(temp)] = '\0';
 	return barcode;
 }
@@ -65,8 +70,16 @@ char* getAddressFromUser()
 	char* address;
 	printf("Please enter address, format: Street name#House number#City\n");
 	do {
-		address = getNameFromUser(MAX_SIZE);
+		address = getNameFromUser(MAX_SIZE); // malloc
+		if (address == NULL)
+		{
+			return NULL;
+		}
 		validAddressFormat = isValidAddressFormat(address);
+		if (!validAddressFormat)
+		{
+			free(address); // free if failed
+		}
 	} while (!validAddressFormat);
 	return address;
 }

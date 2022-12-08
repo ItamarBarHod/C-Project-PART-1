@@ -18,3 +18,9 @@ Address* getAddressData() // TODO
 	//ptr = strtok(NULL, token);
 	//pAdd->city = fixAddressString(ptr);
 }
+
+void freeAddress(Address* pAdd)
+{
+	free(pAdd->city);
+	free(pAdd->streetName);
+}

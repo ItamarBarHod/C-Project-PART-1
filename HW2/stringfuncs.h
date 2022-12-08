@@ -7,7 +7,7 @@
 #define MAX_SIZE 255
 
 int isValidBarcode(const char* str);
-int checkDigitsAmount(const char* str);
+int checkDigitsCount(const char* str);
 int isLowercase(const char* str);
 int IsAlphanumeric(const char* str);
 int isValidCharacterPosition(const char* str);

@@ -46,7 +46,6 @@ void deleteShoppingCart(Shoppingcart* pShoppingCart)
 void addItemToCart(Shoppingcart* pShoppingCart, Product* pProduct, int numberToPurchase) // check works
 {
 	int cartSize = pShoppingCart->shoppingCartSize;
-	printf("DEBUG: cartsize: %d", pShoppingCart->shoppingCartSize);
 	Shoppingitem** tempArr = (Shoppingitem**)realloc(pShoppingCart->itemsArr, (cartSize + 1) * sizeof(Shoppingitem*));
 	if (tempArr == NULL)
 	{
@@ -56,12 +55,11 @@ void addItemToCart(Shoppingcart* pShoppingCart, Product* pProduct, int numberToP
 	tempArr[cartSize] = initShoppingItem(); // malloc
 	if (tempArr[cartSize] == NULL)
 	{
-		printf("MEMORY ERROR\n");
 		return;
 	}
 	tempArr[cartSize]->amount = numberToPurchase;
 	tempArr[cartSize]->price = pProduct->price;
-	tempArr[cartSize]->barcode = _strdup(pProduct->barcode);
+	tempArr[cartSize]->barcode = _strdup(pProduct->barcode); // malloc
 	if (tempArr[cartSize]->barcode == NULL)
 	{
 		printf("MEMORY ERROR\n");
