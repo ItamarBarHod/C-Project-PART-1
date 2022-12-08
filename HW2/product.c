@@ -4,19 +4,25 @@ void printProduct(const Product* pProduct)
 {
 	printf("%-*s %-*s %-*s %-*.2f %d\n", 27, pProduct->productName, 9, pProduct->barcode, 16, productTypes[pProduct->type], 14, pProduct->price, pProduct->stock);
 }
-void insertProductData(Product* pProduct, char* barcode)
+
+void insertProductData(Product* pProduct)
 {
 	printf("Please enter a product name, maximum size %d\n", PRODUCT_SIZE - 1);
 	pProduct->productName = getNameFromUser(PRODUCT_SIZE);
-	pProduct->barcode = barcode;
+	if (pProduct->productName == NULL)
+	{
+		printf("MEMORY ERROR\n");
+		return;
+	}
+
 	pProduct->type = getProductTypeFromUser();
-	printf("please enter the price\n");
+	printf("Please enter the price: ");
 	pProduct->price = getNumberFromUser();
-	printf("please enter the amount (stock count)\n");
+	printf("Please enter the amount (stock count): ");
 	pProduct->stock = (int)getNumberFromUser();
 }
 
-Product* initProduct()
+Product* createNewProduct()
 {
 	Product* tempProd = (Product*)malloc(sizeof(Product));
 	if (tempProd == NULL)
@@ -24,7 +30,14 @@ Product* initProduct()
 		printf("MEMORY ERROR\n");
 		return NULL;
 	}
-	tempProd->barcode = NULL;
+	printf("Add barcode please\n");
+	printBarcodeInstructions();
+	tempProd->barcode = getBarcodeFromUser(PRODUCT_SIZE);
+	if (tempProd->barcode == NULL)
+	{
+		printf("MEMORY ERROR\n");
+		return NULL;
+	}
 	tempProd->productName = NULL;
 	return tempProd;
 }

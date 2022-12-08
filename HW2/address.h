@@ -11,4 +11,4 @@ typedef struct {
 }Address;
 
 void printAddress(const Address* pAdd);
-void getAddressData(Address* pAdd);
+Address* getAddressData();

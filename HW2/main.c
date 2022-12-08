@@ -5,7 +5,7 @@
 int main()
 {
 	Supermarket market;
-	initSuperMarket(&market);
+	createSuperMarket(&market);
 	int flag = 1;
 	int option;
 	while (flag)
@@ -30,14 +30,14 @@ int main()
 			printCustomerShoppingCart(&market);
 			break;
 		case 6:
-			customerPay(&market);
+			customerCheckout(&market);
 			break;
 		case 7:
 			printProductType(&market);
 			break;
 		case 8:
 			flag = 0;
-			deleteSuperMarket(&market); //TODO
+			deleteSuperMarket(&market);
 			printf("Bye bye!\n");
 			break;
 		default:

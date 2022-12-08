@@ -36,7 +36,8 @@ char* getNameFromUser(int maxStrSize)
 		fgets(temp, maxStrSize, stdin);
 		if (temp == NULL)
 		{
-			printf("Please re-enter\n");
+			printf("MEMORY ERROR\n");
+			return NULL;
 		}
 	} while (temp == NULL || strlen(temp) == 1);
 	str = _strdup(temp);

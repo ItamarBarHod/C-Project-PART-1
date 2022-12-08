@@ -38,22 +38,49 @@ void deleteShoppingCart(Shoppingcart* pShoppingCart)
 {
 	for (int i = 0; i < pShoppingCart->shoppingCartSize; i++)
 	{
-		free(&pShoppingCart->itemsArr[i]);
+		freeShoppingItem(&pShoppingCart->itemsArr[i]);
 	}
-	pShoppingCart = NULL;
+	pShoppingCart->shoppingCartSize = 0;
 }
 
-void addItemToCart(Shoppingcart* pShoppingCart, Product* pProduct) // check works
+void addItemToCart(Shoppingcart* pShoppingCart, Product* pProduct, int numberToPurchase) // check works
 {
 	int cartSize = pShoppingCart->shoppingCartSize;
-	Shoppingitem* temp = (Shoppingitem*)realloc(pShoppingCart, (cartSize + 1) * sizeof(Shoppingitem*));
-	if (temp == NULL)
+	Shoppingitem* tempArr = (Shoppingitem*)realloc(pShoppingCart->itemsArr, (cartSize + 1) * sizeof(Shoppingitem));
+	if (tempArr == NULL)
 	{
 		printf("MEMORY ERROR\n");
 		return;
 	}
-	temp[cartSize].barcode = pProduct->barcode;
-	temp[cartSize].amount = pProduct->stock;
-	temp[cartSize].price = pProduct->price;
-	pShoppingCart->itemsArr = temp;
+	tempArr[cartSize].barcode = pProduct->barcode;
+	tempArr[cartSize].amount = numberToPurchase;
+	tempArr[cartSize].price = pProduct->price;
+	pShoppingCart->shoppingCartSize++;
+	pShoppingCart->itemsArr = tempArr;
+}
+
+int checkItemExists(Shoppingcart* pShoppingCart, Product* pProduct)
+{
+	for (int i = 0; i < pShoppingCart->shoppingCartSize; i++)
+	{
+		int equal = strcmp(pShoppingCart->itemsArr->barcode, pProduct->barcode);
+		if (equal == 0)
+		{
+			return 1;
+		}
+	}
+	return 0;
+}
+
+int getItemPos(Shoppingcart* pShoppingCart, Product* pProduct)
+{
+	for (int i = 0; i < pShoppingCart->shoppingCartSize; i++)
+	{
+		int equal = strcmp(pShoppingCart->itemsArr->barcode, pProduct->barcode);
+		if (equal == 0)
+		{
+			return i;
+		}
+	}
+	return -1;
 }

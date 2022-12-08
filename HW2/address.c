@@ -5,9 +5,11 @@ void printAddress(const Address* pAdd)
 	printf("Address: %s, %d, %s\n", pAdd->streetName, pAdd->streetNum, pAdd->city);
 }
 
-void getAddressData(Address* pAdd) // TODO
+Address* getAddressData() // TODO
 {
 	//char* address = getAddressFromUser();
+	// if(address == NULL) 
+	// 
 	//char* token = "#";
 	//char* ptr = strtok(address, token);
 	//pAdd->streetName = fixAddressString(ptr);

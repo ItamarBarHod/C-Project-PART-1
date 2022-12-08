@@ -8,8 +8,10 @@ typedef struct {
 	int shoppingCartSize;
 }Shoppingcart;
 
-void printShoppingCart(const Shoppingcart* pShoppingCart);
-void addItemToCart(Shoppingcart* pShoppingCart, Product* pProduct);
-double calcShoppingCart(const Shoppingcart* pShoppingCart);
-void deleteShoppingCart(Shoppingcart* pShoppingCart);
 Shoppingcart* initShoppingCart();
+void printShoppingCart(const Shoppingcart* pShoppingCart);
+void addItemToCart(Shoppingcart* pShoppingCart, Product* pProduct, int numberToPurchase);
+double calcShoppingCart(const Shoppingcart* pShoppingCart);
+int checkItemExists(Shoppingcart* pShoppingCart, Product* pProduct);
+int getItemPos(Shoppingcart* pShoppingCart, Product* pProduct);
+void deleteShoppingCart(Shoppingcart* pShoppingCart);

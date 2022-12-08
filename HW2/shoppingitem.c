@@ -2,7 +2,7 @@
 
 void printShoppingItem(const Shoppingitem* pShoppingItem)
 {
-	printf("BARCODE: %s, Price: %f, Stock: %d\n", pShoppingItem->barcode, pShoppingItem->price, pShoppingItem->amount);
+	printf("BARCODE: %s, Price: %.2f, Stock: %d\n", pShoppingItem->barcode, pShoppingItem->price, pShoppingItem->amount);
 }
 
 Shoppingitem* initShoppingItem()
@@ -15,4 +15,9 @@ Shoppingitem* initShoppingItem()
 	}
 	tempItem->barcode = NULL;
 	return tempItem;
+}
+
+void freeShoppingItem(Shoppingitem* pShoppingitem)
+{
+	free(pShoppingitem->barcode);
 }

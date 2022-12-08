@@ -9,6 +9,5 @@ typedef struct {
 }Customer;
 
 void printCustomer(const Customer* pCustomer);
-void insertCustomerData(Customer* pCustomer, const char* name);
-Customer* initCustomer();
+Customer* createNewCustomer();
 void freeCustomer(Customer* pCustomer);
