@@ -35,6 +35,6 @@ void freeCustomer(Customer* pCustomer)
 	free(pCustomer->name);
 	for (int i = 0; i < pCustomer->cart.shoppingCartSize; i++)
 	{
-		free(&pCustomer->cart.itemsArr[i]);
+		freeShoppingItem(pCustomer->cart.itemsArr[i]);
 	}
 }
