@@ -342,7 +342,6 @@ void customerCheckoutHelper(const Supermarket* pSupermarket, const Customer* pCu
 		printShoppingCart(cart);
 		printf("Price: %.2lf\n", calcShoppingCart(cart));
 		deleteShoppingCart(cart);
-		pSupermarket->customerArr[customerPos].cart = *initShoppingCart();
 		return;
 	}
 	// else no items

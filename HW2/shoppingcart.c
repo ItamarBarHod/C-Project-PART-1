@@ -53,7 +53,7 @@ void addItemToCart(Shoppingcart* pShoppingCart, Product* pProduct, int numberToP
 		printf("MEMORY ERROR\n");
 		return;
 	}
-	tempArr[cartSize] = initShoppingItem();
+	tempArr[cartSize] = initShoppingItem(); // malloc
 	if (tempArr[cartSize] == NULL)
 	{
 		printf("MEMORY ERROR\n");
