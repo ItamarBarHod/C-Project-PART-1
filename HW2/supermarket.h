@@ -43,7 +43,7 @@ int checkBarcodeExists(const Supermarket* pSupermarket, const char* barcode);
 void putItemInCustomerCart(Supermarket* pSupermarket, const Customer* pCustomer, int numberToPurchase, int productPos);
 // 5: printCustomerShoppingCart - none
 // 6: customerCheckout
-void customerCheckoutHelper(const Supermarket* pSupermarket, const Customer* pCustomer);
+void customerCheckoutHelper(const Supermarket* pSupermarket, Customer* pCustomer);
 // 7: printProductType
 void printProductTypeHelper(const Supermarket* pSupermarket, int type);
 
@@ -52,4 +52,5 @@ int getSupermarketEntireStock(const Supermarket* pSupermarket);
 Product* checkProductExists(const Supermarket* pSupermarket, const Product* pProduct);
 Customer* checkCustomerExists(const Supermarket* pSupermarket, const Customer* pCustomer);
 int getProductPos(const Supermarket* pSupermarket, const Product* pProduct);
+int getCustomerPos(const Supermarket* pSupermarket, const Customer* pCustomer);
 int validMarket(Supermarket* pSupermarket);

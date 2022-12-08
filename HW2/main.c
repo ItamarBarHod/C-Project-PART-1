@@ -41,7 +41,7 @@ int main()
 			printf("Bye bye!\n");
 			break;
 		default:
-			printf("no such option!\n");
+			printf("Error: no such option!\n");
 			break;
 		}
 	}

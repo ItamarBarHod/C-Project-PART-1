@@ -14,7 +14,6 @@ void insertProductData(Product* pProduct)
 		printf("MEMORY ERROR\n");
 		return;
 	}
-
 	pProduct->type = getProductTypeFromUser();
 	printf("Please enter the price: ");
 	pProduct->price = getNumberFromUser();

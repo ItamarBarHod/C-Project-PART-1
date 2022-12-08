@@ -10,7 +10,6 @@
 typedef enum { eShelf, eFrozen, eFridge, eFruitVegetable, eNofEnum } productType;
 static const char* productTypes[eNofEnum] = { "Shelf", "Frozen", "Fridge", "FruitVegetable" };
 
-
 typedef struct {
 	char* productName;
 	char* barcode;
@@ -18,7 +17,6 @@ typedef struct {
 	float price;
 	int stock;
 }Product;
-
 
 void printProduct(const Product* pProduct);
 void insertProductData(Product* pProduct);

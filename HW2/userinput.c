@@ -40,7 +40,7 @@ char* getNameFromUser(int maxStrSize)
 			return NULL;
 		}
 	} while (temp == NULL || strlen(temp) == 1);
-	str = _strdup(temp);
+	str = _strdup(temp); // malloc
 	str[strlen(temp) - 1] = '\0';
 	return str;
 }
@@ -54,7 +54,7 @@ char* getBarcodeFromUser()
 		fgets(temp, BARCODE_SIZE, stdin);
 		validBarcode = isValidBarcode(temp);
 	} while (!validBarcode || temp == NULL || strlen(temp) == 1);
-	barcode = _strdup(temp);
+	barcode = _strdup(temp); // malloc
 	barcode[strlen(temp)] = '\0';
 	return barcode;
 }
@@ -73,7 +73,7 @@ char* getAddressFromUser()
 
 int askUserToContinue()
 {
-	printf("enter Y/y to continue, else enter a random character\n");
+	printf("Enter Y/y to continue, else enter a random character\n");
 	char answer;
 	do {
 		answer = fgetc(stdin);

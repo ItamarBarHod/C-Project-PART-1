@@ -14,7 +14,7 @@ Address* getAddressData() // TODO
 	//char* ptr = strtok(address, token);
 	//pAdd->streetName = fixAddressString(ptr);
 	//ptr = strtok(NULL, token);
-	//pAdd->streetNum = fixAddressString(ptr);
+	//pAdd->streetNum = fixAddressString(ptr); // can use strtol?
 	//ptr = strtok(NULL, token);
 	//pAdd->city = fixAddressString(ptr);
 }

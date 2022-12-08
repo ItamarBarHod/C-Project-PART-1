@@ -59,7 +59,7 @@ void addItemToCart(Shoppingcart* pShoppingCart, Product* pProduct, int numberToP
 	pShoppingCart->itemsArr = tempArr;
 }
 
-int checkItemExists(Shoppingcart* pShoppingCart, Product* pProduct)
+int checkItemExists(const Shoppingcart* pShoppingCart, const Product* pProduct)
 {
 	for (int i = 0; i < pShoppingCart->shoppingCartSize; i++)
 	{
@@ -72,7 +72,7 @@ int checkItemExists(Shoppingcart* pShoppingCart, Product* pProduct)
 	return 0;
 }
 
-int getItemPos(Shoppingcart* pShoppingCart, Product* pProduct)
+int getItemPos(const Shoppingcart* pShoppingCart, const Product* pProduct)
 {
 	for (int i = 0; i < pShoppingCart->shoppingCartSize; i++)
 	{
