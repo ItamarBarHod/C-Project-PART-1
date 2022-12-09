@@ -52,7 +52,7 @@ void addProduct(Supermarket* pSupermarket)
 	Product* prodExist = checkProductExists(pSupermarket, tempProduct); // doesnt malloc
 	if (prodExist != NULL)
 	{
-		addStockToProduct(pSupermarket, tempProduct);
+		addAmountToExistingProduct(pSupermarket, tempProduct);
 		freeProduct(tempProduct); // free
 		return;
 	}
@@ -80,7 +80,7 @@ void addProductHelper(Supermarket* pSupermarket, Product* pProduct)
 	pSupermarket->productArr = productArr;
 }
 
-void addStockToProduct(Supermarket* pSupermarket, Product* pProduct)
+void addAmountToExistingProduct(Supermarket* pSupermarket, const Product* pProduct)
 {
 	Product* ProdExists = checkProductExists(pSupermarket, pProduct);
 	printf("Product with barcode %s already exists under the name: %s\n", ProdExists->barcode, ProdExists->productName);
@@ -146,7 +146,7 @@ void customerShopping(Supermarket* pSupermarket)
 	printf("Error: Customer doesnt exist, returning\n");
 }
 
-void customerShoppingHelper(Supermarket* pSupermarket, Customer* pCustomer)
+void customerShoppingHelper(Supermarket* pSupermarket, const Customer* pCustomer)
 {
 	if (getSupermarketEntireStock(pSupermarket) == 0)
 	{
@@ -170,10 +170,20 @@ void customerShoppingHelper(Supermarket* pSupermarket, Customer* pCustomer)
 	}
 }
 
-void putItemInCustomerCart(Supermarket* pSupermarket, const Customer* pCustomer, Product* pProduct, int amount)
+int getAmountToBuyFromUser(const Supermarket* pSupermarket, const Product* pProduct)
 {
 	int productPos = getProductPos(pSupermarket, pProduct);
-	pSupermarket->productArr[productPos]->stock -= amount; // reduce from stock
+	int itemStock = pSupermarket->productArr[productPos]->stock;
+	int amount;
+	do {
+		printf("Please enter the amount to buy, cant be more than %d (or less than 0)\n", itemStock);
+		amount = (int)getNumberFromUser();
+	} while (amount > itemStock || amount < 0);
+	return amount;
+}
+
+void putItemInCustomerCart(Supermarket* pSupermarket, const Customer* pCustomer, const Product* pProduct, int amount)
+{
 	int customerPos = getCustomerPos(pSupermarket, pCustomer);
 	Shoppingcart* cart = &pSupermarket->customerArr[customerPos].cart;
 	int itemPos = getItemPos(cart, pProduct);
@@ -188,18 +198,8 @@ void putItemInCustomerCart(Supermarket* pSupermarket, const Customer* pCustomer,
 	{
 		addItemToCart(&pSupermarket->customerArr[customerPos].cart, pProduct, amount);
 	}
-}
-
-int getAmountToBuyFromUser(const Supermarket* pSupermarket, const Product* pProduct)
-{
 	int productPos = getProductPos(pSupermarket, pProduct);
-	int itemStock = pSupermarket->productArr[productPos]->stock;
-	int amount;
-	do {
-		printf("Please enter the amount to buy, cant be more than %d (or less than 0)\n", itemStock);
-		amount = (int)getNumberFromUser();
-	} while (amount > itemStock || amount < 0);
-	return amount;
+	pSupermarket->productArr[productPos]->stock -= amount; // reduce from stock
 }
 
 Product* getExistingProductFromUser(const Supermarket* pSupermarket)
@@ -245,7 +245,7 @@ int getSupermarketEntireStock(const Supermarket* pSupermarket)
 	return stockCounter;
 }
 
-int validMarket(Supermarket* pSupermarket)
+int validMarket(const Supermarket* pSupermarket)
 {
 	if (pSupermarket->productArrSize == 0)
 	{
@@ -284,6 +284,7 @@ void printCustomerShoppingCart(const Supermarket* pSupermarket)
 			printf("Printing customer %s cart:\n", custExists->name);
 			printCustomer(&pSupermarket->customerArr[customerPos]);
 			printShoppingCart(&pSupermarket->customerArr[customerPos].cart);
+			printf("Price: %.2lf\n", calcShoppingCart(&pSupermarket->customerArr[customerPos].cart));
 		}
 		else
 		{

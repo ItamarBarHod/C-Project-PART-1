@@ -34,14 +34,14 @@ void deleteSuperMarket(Supermarket* pSupermarket);
 void printCustomers(const Supermarket* pSupermarket);
 // 2: addProduct
 void addProductHelper(Supermarket* pSupermarket, Product* pProduct);
-void addStockToProduct(Supermarket* pSupermarket, Product* pProduct);
+void addAmountToExistingProduct(Supermarket* pSupermarket, const Product* pProduct);
 // 3: addCustomer
 void addCustomerHelper(Supermarket* pSupermarket, Customer* pCustomer);
 // 4: customerShopping
-void customerShoppingHelper(Supermarket* pSupermarket, Customer* pCustomer);
+void customerShoppingHelper(Supermarket* pSupermarket, const Customer* pCustomer);
 int getAmountToBuyFromUser(const Supermarket* pSupermarket, const Product* pProduct);
 Product* getExistingProductFromUser(const Supermarket* pSupermarket);
-void putItemInCustomerCart(Supermarket* pSupermarket, const Customer* pCustomer, Product* pProduct, int amount);
+void putItemInCustomerCart(Supermarket* pSupermarket, const Customer* pCustomer, const Product* pProduct, int amount);
 // 5: printCustomerShoppingCart - none
 // 6: customerCheckout
 void customerCheckoutHelper(const Supermarket* pSupermarket, const Customer* pCustomer);
@@ -54,4 +54,4 @@ Product* checkProductExists(const Supermarket* pSupermarket, const Product* pPro
 Customer* checkCustomerExists(const Supermarket* pSupermarket, const Customer* pCustomer);
 int getProductPos(const Supermarket* pSupermarket, const Product* pProduct);
 int getCustomerPos(const Supermarket* pSupermarket, const Customer* pCustomer);
-int validMarket(Supermarket* pSupermarket);
+int validMarket(const Supermarket* pSupermarket);
