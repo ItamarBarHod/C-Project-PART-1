@@ -7,7 +7,6 @@
 #include "stringfuncs.h"
 #include "address.h"
 
-
 typedef struct {
 	char* marketName;
 	Address marketAddress;

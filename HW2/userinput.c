@@ -14,7 +14,6 @@ int getProductTypeFromUser()
 	return type;
 }
 
-
 float getNumberFromUser()
 {
 	float num;
@@ -67,21 +66,21 @@ char* getBarcodeFromUser()
 char* getAddressFromUser()
 {
 	int validAddressFormat;
-	char* address;
+	char* entireAddress;
 	printf("Please enter address, format: Street name#House number#City\n");
 	do {
-		address = getNameFromUser(MAX_SIZE); // malloc
-		if (address == NULL)
+		entireAddress = getNameFromUser(MAX_SIZE); // malloc
+		if (entireAddress == NULL)
 		{
 			return NULL;
 		}
-		validAddressFormat = isValidAddressFormat(address);
+		validAddressFormat = isValidAddressFormat(entireAddress);
 		if (!validAddressFormat)
 		{
-			free(address); // free if failed
+			free(entireAddress); // free if failed
 		}
 	} while (!validAddressFormat);
-	return address;
+	return entireAddress;
 }
 
 int askUserToContinue()
