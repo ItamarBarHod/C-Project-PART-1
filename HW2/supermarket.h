@@ -48,9 +48,9 @@ void customerCheckoutHelper(const Supermarket* pSupermarket, const Customer* pCu
 void printProductTypeHelper(const Supermarket* pSupermarket, int type);
 
 // general functions
-int getSupermarketEntireStock(const Supermarket* pSupermarket);
+int isSupermarketEmpty(const Supermarket* pSupermarket);
 Product* checkProductExists(const Supermarket* pSupermarket, const Product* pProduct);
 Customer* checkCustomerExists(const Supermarket* pSupermarket, const Customer* pCustomer);
 int getProductPos(const Supermarket* pSupermarket, const Product* pProduct);
 int getCustomerPos(const Supermarket* pSupermarket, const Customer* pCustomer);
-int validMarket(const Supermarket* pSupermarket);
+int checkValidMarket(const Supermarket* pSupermarket);

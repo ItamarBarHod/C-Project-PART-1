@@ -3,12 +3,12 @@
 int getProductTypeFromUser()
 {
 	int type;
-	printf("please enter a product type:\n0: Shelf\n1: Frozen\n2: Fridge\n3: FruitVegetable\n");
+	printf("Please enter a product type:\n0: Shelf\n1: Frozen\n2: Fridge\n3: FruitVegetable\n");
 	do {
 		scanf(" %d", &type);
 		if (type < 0 || type >= eNofEnum)
 		{
-			printf("wrong type, please re-enter a number between 0 and 3\n");
+			printf("Error: Wrong type, please re-enter a number between 0 and 3\n");
 		}
 	} while (type < 0 || type >= eNofEnum);
 	return type;
@@ -21,27 +21,28 @@ float getNumberFromUser()
 		scanf(" %f", &num);
 		if (num < 0)
 		{
-			printf("please enter a NON NEGATIVE number!\n");
+			printf("Error: Please enter a NON NEGATIVE number!\n");
 		}
 	} while (num < 0);
 	return num;
 }
 
-char* getNameFromUser(int maxStrSize)
+char* getNameFromUser(int maxNameSize)
 {
 	char temp[MAX_SIZE];
-	char* str = NULL;
+	char* name = NULL;
 	do {
-		fgets(temp, maxStrSize, stdin);
+		fgets(temp, maxNameSize, stdin);
 	} while (temp == NULL || strlen(temp) == 1);
-	str = _strdup(temp); // malloc
-	if (str == NULL)
+
+	name = _strdup(temp); // malloc
+	if (name == NULL)
 	{
 		printf("MEMORY ERROR\n");
 		return NULL;
 	}
-	str[strlen(temp) - 1] = '\0';
-	return str;
+	name[strlen(temp) - 1] = '\0';
+	return name;
 }
 
 char* getBarcodeFromUser()
@@ -52,7 +53,12 @@ char* getBarcodeFromUser()
 	do {
 		fgets(temp, BARCODE_SIZE, stdin);
 		validBarcode = isValidBarcode(temp);
+		if (!validBarcode)
+		{
+			printf("Bad Barcode! Please follow the rules\n");
+		}
 	} while (!validBarcode || temp == NULL || strlen(temp) == 1);
+
 	barcode = _strdup(temp); // malloc
 	if (barcode == NULL)
 	{
@@ -66,21 +72,24 @@ char* getBarcodeFromUser()
 char* getAddressFromUser()
 {
 	int validAddressFormat;
-	char* entireAddress;
+	char* address;
 	printf("Please enter address, format: Street name#House number#City\n");
 	do {
-		entireAddress = getNameFromUser(MAX_SIZE); // malloc
-		if (entireAddress == NULL)
+		address = getNameFromUser(MAX_SIZE); // malloc
+		if (address == NULL)
 		{
+			printf("MEMORY ERROR\n");
 			return NULL;
 		}
-		validAddressFormat = isValidAddressFormat(entireAddress);
+		validAddressFormat = isValidAddressFormat(address);
 		if (!validAddressFormat)
 		{
-			free(entireAddress); // free if failed
+			printf("Error: Invalid address format, please re-enter\n");
+			printf("example: vitkin#9#herzelia\n");
+			free(address); // free if failed
 		}
 	} while (!validAddressFormat);
-	return entireAddress;
+	return address;
 }
 
 int askUserToContinue()

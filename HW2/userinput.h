@@ -4,7 +4,7 @@
 #include "stringfuncs.h"
 
 char* getAddressFromUser();
-char* getNameFromUser(int maxStrSize);
+char* getNameFromUser(int maxNameSize);
 char* getBarcodeFromUser();
 float getNumberFromUser();
 int getProductTypeFromUser();

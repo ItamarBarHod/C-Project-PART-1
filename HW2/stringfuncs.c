@@ -9,7 +9,6 @@ int isValidBarcode(const char* str)
 	int digits = checkDigitsCount(str);
 	if ((digits > 5 || digits < 3) || (int)strlen(str) != BARCODE_SIZE - 1 || isLowercase(str) || !isValidCharacterPosition(str) || !IsAlphanumeric(str))
 	{
-		printf("Bad Barcode! Please follow the rules\n");
 		return 0;
 	}
 	return 1;
@@ -23,8 +22,6 @@ int isValidAddressFormat(const char* str)
 	{
 		return 1;
 	}
-	printf("invalid address format, please re-enter\n");
-	printf("example: vitkin#9#herzelia\n");
 	return 0;
 }
 
@@ -48,7 +45,7 @@ int isLowercase(const char* str)
 	while (*str) {
 		if (islower(*str))
 		{
-			return 1; // found lower case
+			return 1; // lower case found
 		}
 		str++;
 	}
