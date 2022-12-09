@@ -53,10 +53,6 @@ char* getBarcodeFromUser()
 	do {
 		fgets(temp, BARCODE_SIZE, stdin);
 		validBarcode = isValidBarcode(temp);
-		if (!validBarcode)
-		{
-			printf("Bad Barcode! Please follow the rules\n");
-		}
 	} while (!validBarcode || temp == NULL || strlen(temp) == 1);
 
 	barcode = _strdup(temp); // malloc

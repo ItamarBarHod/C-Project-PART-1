@@ -141,6 +141,7 @@ void customerShopping(Supermarket* pSupermarket)
 	if (isCustomerExist == NULL)
 	{
 		printf("Error: Customer doesnt exist, returning\n");
+		return;
 	}
 	customerShoppingHelper(pSupermarket, shoppingCustomer);
 	freeCustomer(shoppingCustomer); // free
@@ -385,8 +386,8 @@ int getCustomerPos(const Supermarket* pSupermarket, const Customer* pCustomer)
 {
 	for (int i = 0; i < pSupermarket->customerArrSize; i++)
 	{
-		int isStringsEqual = strcmp(pSupermarket->customerArr[i].name, pCustomer->name);
-		if (isStringsEqual)
+		int equal = strcmp(pSupermarket->customerArr[i].name, pCustomer->name);
+		if (equal == 0)
 		{
 			return i;
 		}
@@ -398,8 +399,8 @@ int getProductPos(const Supermarket* pSupermarket, const Product* pProduct)
 {
 	for (int i = 0; i < pSupermarket->productArrSize; i++)
 	{
-		int isStringsEqual = strcmp(pSupermarket->productArr[i]->barcode, pProduct->barcode);
-		if (isStringsEqual)
+		int equal = strcmp(pSupermarket->productArr[i]->barcode, pProduct->barcode);
+		if (equal == 0)
 		{
 			return i;
 		}
@@ -411,8 +412,8 @@ Product* checkProductExists(const Supermarket* pSupermarket, const Product* pPro
 {
 	for (int i = 0; i < pSupermarket->productArrSize; i++)
 	{
-		int isStringsEqual = strcmp(pSupermarket->productArr[i]->barcode, pProduct->barcode);
-		if (isStringsEqual)
+		int equal = strcmp(pSupermarket->productArr[i]->barcode, pProduct->barcode);
+		if (equal == 0)
 		{
 			return pSupermarket->productArr[i];
 		}
@@ -424,8 +425,8 @@ Customer* checkCustomerExists(const Supermarket* pSupermarket, const Customer* p
 {
 	for (int i = 0; i < pSupermarket->customerArrSize; i++)
 	{
-		int isStringsEqual = strcmp(pSupermarket->customerArr[i].name, pCustomer->name);
-		if (isStringsEqual)
+		int equal = strcmp(pSupermarket->customerArr[i].name, pCustomer->name);
+		if (equal == 0)
 		{
 			return &pSupermarket->customerArr[i];
 		}
