@@ -43,7 +43,7 @@ void deleteShoppingCart(Shoppingcart* pShoppingCart)
 	pShoppingCart->shoppingCartSize = 0;
 }
 
-void addItemToCart(Shoppingcart* pShoppingCart, Product* pProduct, int numberToPurchase) // check works
+void addItemToCart(Shoppingcart* pShoppingCart, const Product* pProduct, int numberToPurchase) // check works
 {
 	int cartSize = pShoppingCart->shoppingCartSize;
 	Shoppingitem** tempArr = (Shoppingitem**)realloc(pShoppingCart->itemsArr, (cartSize + 1) * sizeof(Shoppingitem*));

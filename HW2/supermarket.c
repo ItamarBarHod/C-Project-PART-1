@@ -8,11 +8,11 @@ void createSuperMarket(Supermarket* pSupermarket)
 	{
 		return;
 	}
-	// pSupermarket->marketAddress = *getAddressData();
-	//if (&pSupermarket->marketAddress == NULL)
-	//{
-	//	return;
-	//}
+	pSupermarket->marketAddress = *getAddressData();
+	if (&pSupermarket->marketAddress == NULL)
+	{
+		return;
+	}
 	pSupermarket->customerArr = NULL;
 	pSupermarket->customerArrSize = 0;
 	pSupermarket->productArr = NULL;
@@ -26,8 +26,8 @@ void printMarket(const Supermarket* pSupermarket) // TODO
 		printf("Error: no products exist yet\n");
 		return;
 	}
-	printf("Market name: %s |-| \n", pSupermarket->marketName);
-	//printAddress(&pSupermarket->marketAddress);
+	printf("Market name: %s | ", pSupermarket->marketName);
+	printAddress(&pSupermarket->marketAddress);
 	printf("Product Name ------------ | BARCODE | Type  -------- | Price ------ | Stock \n");
 	printf("----------------------------------------------------------------------------\n");
 	for (int i = 0; i < pSupermarket->productArrSize; i++)
@@ -243,7 +243,7 @@ int isSupermarketEmpty(const Supermarket* pSupermarket)
 	for (int i = 0; i < pSupermarket->productArrSize; i++)
 	{
 		stockCounter += pSupermarket->productArr[i]->stock;
-		if (stockCounter > 0)
+		if (stockCounter > 0) // not empty
 		{
 			return 0;
 		}

@@ -67,7 +67,7 @@ char* getBarcodeFromUser()
 
 char* getAddressFromUser()
 {
-	int validAddressFormat;
+	int isvalidFormat;
 	char* address;
 	printf("Please enter address, format: Street name#House number#City\n");
 	do {
@@ -77,14 +77,14 @@ char* getAddressFromUser()
 			printf("MEMORY ERROR\n");
 			return NULL;
 		}
-		validAddressFormat = isValidAddressFormat(address);
-		if (!validAddressFormat)
+		isvalidFormat = isValidAddressFormat(address);
+		if (!isvalidFormat)
 		{
 			printf("Error: Invalid address format, please re-enter\n");
 			printf("example: vitkin#9#herzelia\n");
 			free(address); // free if failed
 		}
-	} while (!validAddressFormat);
+	} while (!isvalidFormat);
 	return address;
 }
 

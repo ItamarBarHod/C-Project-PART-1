@@ -7,7 +7,7 @@ int isValidBarcode(const char* str)
 		return 0;
 	}
 	int digits = checkDigitsCount(str);
-	if ((digits > 5 || digits < 3) || (int)strlen(str) != BARCODE_SIZE - 1 || isLowercase(str) || !isValidCharacterPosition(str) || !IsAlphanumeric(str))
+	if ((digits > 5 || digits < 3) || strlen(str) != BARCODE_SIZE - 1 || isLowercase(str) || !isValidCharacterPosition(str) || !IsAlphanumeric(str))
 	{
 		printf("Bad Barcode! Please follow the rules\n");
 		return 0;
@@ -17,9 +17,9 @@ int isValidBarcode(const char* str)
 
 int isValidAddressFormat(const char* str)
 {
-	int validTokenFormat = validTokens(str);
-	int validSections = isValidAddressSections(str);
-	if (validTokenFormat && validSections)
+	int isValidTokenFormat = validTokens(str);
+	int isValidSections = isValidAddressSections(str);
+	if (isValidTokenFormat && isValidSections)
 	{
 		return 1;
 	}
@@ -44,9 +44,10 @@ int checkDigitsCount(const char* str)
 int isLowercase(const char* str)
 {
 	while (*str) {
-		if (islower(*str))
+		int isLowerCase = islower(*str);
+		if (isLowerCase)
 		{
-			return 1; // lower case found
+			return 1;
 		}
 		str++;
 	}
@@ -62,7 +63,22 @@ int IsAlphanumeric(const char* str)
 {
 	while (*str)
 	{
-		if (!isalnum(*str) && !isspace(*str))
+		int isAlphaNumeric = isalnum(*str) || isspace(*str);
+		if (!isAlphaNumeric)
+		{
+			return 0;
+		}
+		str++;
+	}
+	return 1;
+}
+
+int isOnlyNumbers(const char* str)
+{
+	while (*str)
+	{
+		int isNumber = isdigit(*str);
+		if (!isNumber)
 		{
 			return 0;
 		}
@@ -73,52 +89,39 @@ int IsAlphanumeric(const char* str)
 
 int isValidAddressSections(const char* str) // split to 3 sections and check
 {
-	int validCounter = 0;
-	char* temp = _strdup(str);
-	char* token = "#";
-	char* street = strtok(temp, token);
-	char* streetNum = strtok(NULL, token);
-	char* city = strtok(NULL, token);
-	if (strlen(street) > 0 && IsAlphanumeric(street))
+	char* temp = _strdup(str); // malloc
+	if (temp == NULL)
 	{
-		validCounter++;
+		printf("MEMORY ERROR\n");
+		return 0;
 	}
-	if (isValidStreetNumber(streetNum) && !IsAlphanumeric(streetNum));
+	const char* delimiter = "#";
+	char* street = strtok(temp, delimiter);
+	char* streetNum = strtok(NULL, delimiter);
+	char* city = strtok(NULL, delimiter);
+	if (!street || !IsAlphanumeric(street))
 	{
-		validCounter++;
+		return 0;
 	}
-	if (strlen(city) > 0 && IsAlphanumeric(city))
+	if (!streetNum || !isOnlyNumbers(streetNum))
 	{
-		validCounter++;
+		return 0;
 	}
-	free(temp);
-	if (validCounter == 3)
+	if (!city || !IsAlphanumeric(city))
 	{
-		return 1;
+		return 0;
 	}
-	return 0;
-}
-
-int isValidStreetNumber(const char* str)
-{
-	while (*str)
-	{
-		if (!isdigit(*str))
-		{
-			return 0;
-		}
-		str++;
-	}
+	free(temp); // free
 	return 1;
 }
 
 int validTokens(const char* str)
 {
 	int tokenCounter = 0;
-	char token = '#';
+	const char delimiter = '#';
 	while (*str)
 	{
-		if (*str == token)
+		if (*str == delimiter)
 		{
 			tokenCounter++;
 		}
@@ -131,13 +134,34 @@ int validTokens(const char* str)
 	return 1;
 }
 
-char* fixAddressString(char* str)
+char* fixAddressStreetAndCity(char* str)
 {
-	char* temp = "";
-	while (*str)
+	char tempString[MAX_SIZE] = "";
+	const char* delimiter = " ";
+	char* token = NULL;
+	char* lastWord = NULL;
+	token = strtok(str, delimiter);
+	lastWord = token;
+	int index = 0;
+	while (token != NULL)
 	{
-
-		str++;
+		_strlwr(token);
+		*token = toupper(*token);
+		strcat(tempString, token);
+		strcat(tempString, "  ");
+		index += strlen(token) + 2;
+		lastWord = token;
+		token = strtok(NULL, delimiter);
 	}
-	return temp;
+	index -= strlen(lastWord) + 2; // cant be 0 since str != null
+	tempString[index] = tolower(tempString[index]);
+	index += strlen(lastWord);
+	tempString[index] = '\0';
+	char* fixedString = _strdup(tempString); // malloc
+	if (fixedString == NULL)
+	{
+		printf("MEMORY ERROR\n");
+		return NULL;
+	}
+	return fixedString;
 }
