@@ -9,22 +9,23 @@ void printCustomer(const Customer* pCustomer)
 Customer* createNewCustomer()
 {
 	Customer* tempCustomer = (Customer*)malloc(sizeof(Customer));
-	if (tempCustomer == NULL)
+	if (!tempCustomer)
 	{
 		printf("MEMORY ERROR\n");
 		return NULL;
 	}
 	tempCustomer->cart = *initShoppingCart();
-	if (&tempCustomer->cart == NULL)
+	if (!&tempCustomer->cart)
 	{
-		printf("MEMORY ERROR\n");
+		free(tempCustomer);
 		return NULL;
 	}
 	printf("Enter customer name\n");
 	tempCustomer->name = getNameFromUser(MAX_SIZE);
-	if (tempCustomer->name == NULL)
+	if (!tempCustomer->name)
 	{
-		printf("MEMORY ERROR\n");
+		free(tempCustomer->cart.itemsArr);
+		free(tempCustomer);
 		return NULL;
 	}
 	return tempCustomer;

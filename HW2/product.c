@@ -9,7 +9,7 @@ void insertProductData(Product* pProduct)
 {
 	printf("Please enter a product name, maximum size %d\n", PRODUCT_SIZE - 1);
 	pProduct->productName = getNameFromUser(PRODUCT_SIZE);
-	if (pProduct->productName == NULL)
+	if (!pProduct->productName)
 	{
 		return;
 	}
@@ -23,7 +23,7 @@ void insertProductData(Product* pProduct)
 Product* createNewProduct()
 {
 	Product* tempProd = (Product*)malloc(sizeof(Product));
-	if (tempProd == NULL)
+	if (!tempProd)
 	{
 		printf("MEMORY ERROR\n");
 		return NULL;

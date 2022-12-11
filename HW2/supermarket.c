@@ -4,12 +4,13 @@ void createSuperMarket(Supermarket* pSupermarket)
 {
 	printf("Enter supermarket name\n");
 	pSupermarket->marketName = getNameFromUser(MAX_SIZE);
-	if (pSupermarket->marketName == NULL)
+	if (!pSupermarket->marketName)
 	{
 		return;
 	}
+	printAddressInstructions();
 	pSupermarket->marketAddress = *getAddressData();
-	if (&pSupermarket->marketAddress == NULL)
+	if (!&pSupermarket->marketAddress)
 	{
 		return;
 	}
@@ -21,20 +22,16 @@ void createSuperMarket(Supermarket* pSupermarket)
 
 void printMarket(const Supermarket* pSupermarket) // TODO
 {
-	if (pSupermarket->productArrSize == 0)
-	{
-		printf("Error: no products exist yet\n");
-		return;
-	}
 	printf("Market name: %s | ", pSupermarket->marketName);
 	printAddress(&pSupermarket->marketAddress);
+	printf("There are %d products\n", pSupermarket->productArrSize);
 	printf("Product Name ------------ | BARCODE | Type  -------- | Price ------ | Stock \n");
 	printf("----------------------------------------------------------------------------\n");
 	for (int i = 0; i < pSupermarket->productArrSize; i++)
 	{
 		printProduct(pSupermarket->productArr[i]);
 	}
-	printf("\nNumber of customers: %d\n", pSupermarket->customerArrSize);
+	printf("\nThere are %d listed customers\n", pSupermarket->customerArrSize);
 	if (pSupermarket->customerArrSize > 0)
 	{
 		printCustomers(pSupermarket);
@@ -45,39 +42,44 @@ void printMarket(const Supermarket* pSupermarket) // TODO
 void addProduct(Supermarket* pSupermarket)
 {
 	Product* newProduct = createNewProduct(); // malloc
-	if (newProduct == NULL)
+	if (!newProduct)
 	{
 		return;
 	}
 	Product* isProductExist = checkProductExists(pSupermarket, newProduct); // doesnt malloc
-	if (isProductExist == NULL)
+	if (!isProductExist)
 	{
 		printf("Adding product with barcode %s:\n", newProduct->barcode);
-		addProductHelper(pSupermarket, newProduct);
+		int reallocSuccess = addProductHelper(pSupermarket, newProduct);
+		if (!reallocSuccess)
+		{
+			freeProduct(newProduct); // free
+		}
 		return;
 	}
 	addAmountToExistingProduct(pSupermarket, newProduct);
 	freeProduct(newProduct); // free
 }
 
-void addProductHelper(Supermarket* pSupermarket, Product* pProduct)
+int addProductHelper(Supermarket* pSupermarket, Product* pProduct)
 {
 	insertProductData(pProduct);
-	if (pProduct->productName == NULL)
+	if (!pProduct->productName)
 	{
 		freeProduct(pProduct);
-		return;
+		return 0;
 	}
 	int arrSize = pSupermarket->productArrSize;
 	Product** newProductArr = (Product**)realloc(pSupermarket->productArr, (arrSize + 1) * sizeof(Product*));
-	if (newProductArr == NULL)
+	if (!newProductArr)
 	{
 		printf("MEMORY ERROR!\n");
-		return;
+		return 0;
 	}
 	newProductArr[arrSize] = pProduct;
 	pSupermarket->productArrSize++;
 	pSupermarket->productArr = newProductArr;
+	return 1;
 }
 
 void addAmountToExistingProduct(Supermarket* pSupermarket, const Product* pProduct)
@@ -94,33 +96,38 @@ void addCustomer(Supermarket* pSupermarket)
 {
 	printf("Please enter customer name to add\n");
 	Customer* newCustomer = createNewCustomer(); // malloc
-	if (newCustomer == NULL)
+	if (!newCustomer)
 	{
 		return;
 	}
 	Customer* isCustomerExist = checkCustomerExists(pSupermarket, newCustomer);
-	if (isCustomerExist == NULL)
+	if (!isCustomerExist)
 	{
-		addCustomerHelper(pSupermarket, newCustomer); // add new customer
+		int reallocSuccess = addCustomerHelper(pSupermarket, newCustomer); // add new customer
+		if (!reallocSuccess)
+		{
+			freeCustomer(newCustomer); // free
+		}
 		return;
 	}
 	printf("Error: Customer with this name already exists, returning\n");
 	freeCustomer(newCustomer); // free
 }
 
-void addCustomerHelper(Supermarket* pSupermarket, Customer* pCustomer)
+int addCustomerHelper(Supermarket* pSupermarket, Customer* pCustomer)
 {
 	int arrSize = pSupermarket->customerArrSize;
 	Customer* newCustomerArr = (Customer*)realloc(pSupermarket->customerArr, (arrSize + 1) * sizeof(Customer));
 	if (newCustomerArr == NULL)
 	{
 		printf("MEMORY ERROR!\n");
-		return;
+		return 0;
 	}
 	newCustomerArr[arrSize] = *pCustomer;
 	pSupermarket->customerArrSize++;
 	pSupermarket->customerArr = newCustomerArr;
 	printf("Added customer: %s\n", pCustomer->name);
+	return 1;
 }
 
 void customerShopping(Supermarket* pSupermarket)
@@ -141,6 +148,7 @@ void customerShopping(Supermarket* pSupermarket)
 	if (isCustomerExist == NULL)
 	{
 		printf("Error: Customer doesnt exist, returning\n");
+		freeCustomer(shoppingCustomer); // free
 		return;
 	}
 	customerShoppingHelper(pSupermarket, shoppingCustomer);
@@ -156,10 +164,10 @@ void customerShoppingHelper(Supermarket* pSupermarket, const Customer* pCustomer
 		return; // will free
 	}
 	Product* isProductExist = getExistingProductFromUser(pSupermarket);
-	if (isProductExist == NULL)
+	if (!isProductExist)
 	{
 		printf("MEMORY ERROR\n");
-		return;
+		return; // will free
 	}
 	int amount = getAmountToBuyFromUser(pSupermarket, isProductExist);
 	putItemInCustomerCart(pSupermarket, pCustomer, isProductExist, amount);
@@ -188,9 +196,10 @@ void putItemInCustomerCart(Supermarket* pSupermarket, const Customer* pCustomer,
 {
 	int customerPos = getCustomerPos(pSupermarket, pCustomer);
 	Shoppingcart* cart = &pSupermarket->customerArr[customerPos].cart;
-	int itemPos = getItemPos(cart, pProduct);
-	printf("Product: %s (%s) stock left: %d\n", pProduct->productName, pProduct->barcode, pProduct->stock);
+	int newStock = pProduct->stock - amount;
+	printf("Product: %s (%s) stock left: %d\n", pProduct->productName, pProduct->barcode, newStock);
 	int itemExists = checkItemExists(cart, pProduct);
+	int itemPos = getItemPos(cart, pProduct);
 	if (itemExists)
 	{
 		int itemPos = getItemPos(cart, pProduct);
@@ -198,7 +207,11 @@ void putItemInCustomerCart(Supermarket* pSupermarket, const Customer* pCustomer,
 	}
 	else
 	{
-		addItemToCart(&pSupermarket->customerArr[customerPos].cart, pProduct, amount);
+		int reallocSuccess = addItemToCart(&pSupermarket->customerArr[customerPos].cart, pProduct, amount);
+		if (!reallocSuccess)
+		{
+			return;
+		}
 	}
 	int productPos = getProductPos(pSupermarket, pProduct);
 	pSupermarket->productArr[productPos]->stock -= amount; // reduce from stock
@@ -210,17 +223,17 @@ Product* getExistingProductFromUser(const Supermarket* pSupermarket)
 	Product* isProductExist; // local
 	do {
 		Product* tempProduct = createNewProduct(); // malloc
-		if (tempProduct == NULL)
+		if (!tempProduct)
 		{
 			return NULL;
 		}
 		isProductExist = checkProductExists(pSupermarket, tempProduct);
-		if (isProductExist == NULL) // DOESNT EXIST
+		if (!isProductExist)
 		{
 			printf("Error: Barcode does not exist! please re-enter\n");
 			freeProduct(tempProduct); // free
 		}
-	} while (isProductExist == NULL);
+	} while (!isProductExist);
 	return isProductExist;
 }
 
@@ -277,21 +290,23 @@ void printCustomerShoppingCart(const Supermarket* pSupermarket)
 	printf("Printing existing customers:\n");
 	printCustomers(pSupermarket);
 	Customer* tempCustomer = createNewCustomer(); // malloc
-	if (tempCustomer == NULL)
+	if (!tempCustomer)
 	{
 		return;
 	}
 	int customerPos = getCustomerPos(pSupermarket, tempCustomer);
 	Customer* isCustomerExist = checkCustomerExists(pSupermarket, tempCustomer);
-	if (isCustomerExist == NULL)
+	if (!isCustomerExist)
 	{
 		printf("Error: customer with this name does not exist, returning to main menu\n");
+		freeCustomer(tempCustomer); // free
 		return;
 	}
 	int cartSize = pSupermarket->customerArr[customerPos].cart.shoppingCartSize;
 	if (cartSize == 0)
 	{
 		printf("Error: customer has no items in his cart yet!\n");
+		freeCustomer(tempCustomer); // free
 		return;
 	}
 	printf("Printing customer %s cart:\n", isCustomerExist->name);
@@ -320,12 +335,12 @@ void customerCheckout(const Supermarket* pSupermarket)
 	printf("Printing existing customers:\n");
 	printCustomers(pSupermarket);
 	Customer* tempCustomer = createNewCustomer(); // malloc
-	if (tempCustomer == NULL)
+	if (!tempCustomer)
 	{
 		return;
 	}
 	Customer* isCustomerExist = checkCustomerExists(pSupermarket, tempCustomer); // doesnt malloc
-	if (isCustomerExist == NULL)
+	if (!isCustomerExist)
 	{
 		printf("Error: No such customer exists, returning to main menu\n");
 		freeCustomer(tempCustomer); // free

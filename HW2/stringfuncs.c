@@ -90,7 +90,7 @@ int isOnlyNumbers(const char* str)
 int isValidAddressSections(const char* str) // split to 3 sections and check
 {
 	char* temp = _strdup(str); // malloc
-	if (temp == NULL)
+	if (!temp)
 	{
 		printf("MEMORY ERROR\n");
 		return 0;
@@ -140,25 +140,25 @@ char* fixAddressStreetAndCity(char* str)
 	const char* delimiter = " ";
 	char* token = NULL;
 	char* lastWord = NULL;
-	token = strtok(str, delimiter);
+	token = strtok(str, delimiter); // cant be NULL
 	lastWord = token;
 	int index = 0;
-	while (token != NULL)
+	while (token)
 	{
 		_strlwr(token);
 		*token = toupper(*token);
 		strcat(tempString, token);
 		strcat(tempString, "  ");
-		index += strlen(token) + 2;
+		index += (int)(strlen(token) + 2);
 		lastWord = token;
 		token = strtok(NULL, delimiter);
 	}
-	index -= strlen(lastWord) + 2; // cant be 0 since str != null
+	index -= (int)(strlen(lastWord) + 2); // cant be 0
 	tempString[index] = tolower(tempString[index]);
-	index += strlen(lastWord);
+	index += (int)strlen(lastWord);
 	tempString[index] = '\0';
 	char* fixedString = _strdup(tempString); // malloc
-	if (fixedString == NULL)
+	if (!fixedString)
 	{
 		printf("MEMORY ERROR\n");
 		return NULL;

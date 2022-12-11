@@ -8,7 +8,7 @@ void printShoppingItem(const Shoppingitem* pShoppingItem)
 Shoppingitem* initShoppingItem()
 {
 	Shoppingitem* tempItem = (Shoppingitem*)malloc(sizeof(Shoppingitem));
-	if (tempItem == NULL)
+	if (!tempItem)
 	{
 		printf("MEMORY ERROR\n");
 		return NULL;

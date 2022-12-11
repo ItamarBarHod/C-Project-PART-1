@@ -69,7 +69,6 @@ char* getAddressFromUser()
 {
 	int isvalidFormat;
 	char* address;
-	printf("Please enter address, format: Street name#House number#City\n");
 	do {
 		address = getNameFromUser(MAX_SIZE); // malloc
 		if (address == NULL)

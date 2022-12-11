@@ -32,10 +32,10 @@ void deleteSuperMarket(Supermarket* pSupermarket);
 // 1: printMarket
 void printCustomers(const Supermarket* pSupermarket);
 // 2: addProduct
-void addProductHelper(Supermarket* pSupermarket, Product* pProduct);
+int addProductHelper(Supermarket* pSupermarket, Product* pProduct);
 void addAmountToExistingProduct(Supermarket* pSupermarket, const Product* pProduct);
 // 3: addCustomer
-void addCustomerHelper(Supermarket* pSupermarket, Customer* pCustomer);
+int addCustomerHelper(Supermarket* pSupermarket, Customer* pCustomer);
 // 4: customerShopping
 void customerShoppingHelper(Supermarket* pSupermarket, const Customer* pCustomer);
 int getAmountToBuyFromUser(const Supermarket* pSupermarket, const Product* pProduct);
