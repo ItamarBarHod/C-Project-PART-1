@@ -40,6 +40,7 @@ void deleteShoppingCart(Shoppingcart* pShoppingCart)
 	{
 		freeShoppingItem(pShoppingCart->itemsArr[i]);
 	}
+	free(pShoppingCart->itemsArr);
 	pShoppingCart->shoppingCartSize = 0;
 }
 
@@ -55,7 +56,7 @@ int addItemToCart(Shoppingcart* pShoppingCart, const Product* pProduct, int numb
 	Shoppingitem* newItem = initShoppingItem(); // malloc
 	if (!newItem)
 	{
-		pShoppingCart->itemsArr = tempArr; // newitem failed
+		//pShoppingCart->itemsArr = tempArr; // newitem failed
 		return 0;
 	}
 	tempArr[cartSize] = newItem;
@@ -64,6 +65,7 @@ int addItemToCart(Shoppingcart* pShoppingCart, const Product* pProduct, int numb
 	tempArr[cartSize]->barcode = _strdup(pProduct->barcode); // malloc
 	if (tempArr[cartSize]->barcode == NULL)
 	{
+		freeShoppingItem(newItem);
 		printf("MEMORY ERROR\n");
 		return 0;
 	}
