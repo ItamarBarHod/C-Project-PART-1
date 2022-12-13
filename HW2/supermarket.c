@@ -452,11 +452,12 @@ Customer* checkCustomerExists(const Supermarket* pSupermarket, const Customer* p
 void deleteSuperMarket(Supermarket* pSupermarket)
 {
 	free(pSupermarket->marketName); // name
-	// freeAddress(pSupermarket->marketAddress);
+	freeAddress(&pSupermarket->marketAddress);
 	for (int i = 0; i < pSupermarket->customerArrSize; i++) // customers and shopping items
 	{
 		freeCustomer(&pSupermarket->customerArr[i]);
 	}
+	free(pSupermarket->customerArr);
 	for (int i = 0; i < pSupermarket->productArrSize; i++) // products
 	{
 		freeProduct(pSupermarket->productArr[i]);
