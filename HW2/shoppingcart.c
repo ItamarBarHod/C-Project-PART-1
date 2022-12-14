@@ -41,6 +41,7 @@ void deleteShoppingCart(Shoppingcart* pShoppingCart)
 		freeShoppingItem(pShoppingCart->itemsArr[i]);
 	}
 	pShoppingCart->shoppingCartSize = 0;
+	pShoppingCart = NULL;
 }
 
 int addItemToCart(Shoppingcart* pShoppingCart, const Product* pProduct, int numberToPurchase) // check works

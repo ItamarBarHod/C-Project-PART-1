@@ -20,4 +20,5 @@ Shoppingitem* initShoppingItem()
 void freeShoppingItem(Shoppingitem* pShoppingItem)
 {
 	free(pShoppingItem->barcode);
+	pShoppingItem = NULL;
 }

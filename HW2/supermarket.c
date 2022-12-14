@@ -357,7 +357,7 @@ void customerCheckoutHelper(const Supermarket* pSupermarket, const Customer* pCu
 	Shoppingcart* pCart = pSupermarket->customerArr[customerPos].cart;
 	if (pCart->shoppingCartSize > 0) {
 		printShoppingCart(pCart);
-		printf("Price of shopping cart: %.2lf\n", calcShoppingCart(pCart));
+		printf("Paying! Price of to pay: %.2lf\n", calcShoppingCart(pCart));
 		deleteShoppingCart(pCart);
 		printf("Returned shopping cart!\n");
 		return;

@@ -3,7 +3,6 @@
 int isValidBarcode(const char* str)
 {
 	int barcodeLength = strlen(str);
-	printf("barcode length: %d\n", barcodeLength);
 	if (barcodeLength == 1) // buffer fix 
 	{
 		return 0;

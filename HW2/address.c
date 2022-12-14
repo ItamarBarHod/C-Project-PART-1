@@ -26,6 +26,7 @@ void freeAddress(Address* pAdd)
 {
 	free(pAdd->city);
 	free(pAdd->streetName);
+	pAdd = NULL;
 }
 
 void fixValidAddress(Address* pAdd, char* address)
