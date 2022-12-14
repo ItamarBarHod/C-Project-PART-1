@@ -360,6 +360,7 @@ void customerCheckoutHelper(const Supermarket* pSupermarket, const Customer* pCu
 		printf("Paying! Price of to pay: %.2lf\n", calcShoppingCart(pCart));
 		deleteShoppingCart(pCart);
 		printf("Returned shopping cart!\n");
+		printf("--------PAYMENT DONE--------\n");
 		return;
 	}
 	// else no items in cart
