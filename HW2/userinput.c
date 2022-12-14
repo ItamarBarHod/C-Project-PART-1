@@ -51,7 +51,7 @@ char* getBarcodeFromUser()
 	int validBarcode;
 	char* barcode;
 	do {
-		fgets(temp, BARCODE_SIZE, stdin);
+		fgets(temp, MAX_SIZE, stdin);
 		validBarcode = isValidBarcode(temp);
 	} while (!validBarcode || temp == NULL || strlen(temp) == 1);
 
@@ -61,7 +61,7 @@ char* getBarcodeFromUser()
 		printf("MEMORY ERROR\n");
 		return NULL;
 	}
-	barcode[strlen(temp)] = '\0';
+	barcode[BARCODE_SIZE-1] = '\0';
 	return barcode;
 }
 

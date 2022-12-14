@@ -14,17 +14,16 @@ Customer* createNewCustomer()
 		printf("MEMORY ERROR\n");
 		return NULL;
 	}
-	tempCustomer->cart = *initShoppingCart();
-	if (!&tempCustomer->cart)
+	tempCustomer->cart = initShoppingCart();
+	if (!tempCustomer->cart)
 	{
-		free(tempCustomer);
+		printf("MEMORY ERROR\n");
 		return NULL;
 	}
 	printf("Enter customer name\n");
 	tempCustomer->name = getNameFromUser(MAX_SIZE);
 	if (!tempCustomer->name)
 	{
-		free(tempCustomer->cart.itemsArr);
 		free(tempCustomer);
 		return NULL;
 	}
@@ -34,8 +33,7 @@ Customer* createNewCustomer()
 void freeCustomer(Customer* pCustomer)
 {
 	free(pCustomer->name);
-	for (int i = 0; i < pCustomer->cart.shoppingCartSize; i++)
-	{
-		freeShoppingItem(pCustomer->cart.itemsArr[i]);
-	}
+	pCustomer->name = NULL;
+	deleteShoppingCart(pCustomer->cart);
+	pCustomer->cart = NULL;
 }

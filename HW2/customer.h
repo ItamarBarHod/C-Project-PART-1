@@ -5,7 +5,7 @@
 
 typedef struct {
 	char* name;
-	Shoppingcart cart;
+	Shoppingcart* cart;
 }Customer;
 
 void printCustomer(const Customer* pCustomer);

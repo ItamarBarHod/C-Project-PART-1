@@ -55,7 +55,7 @@ int addItemToCart(Shoppingcart* pShoppingCart, const Product* pProduct, int numb
 	Shoppingitem* newItem = initShoppingItem(); // malloc
 	if (!newItem)
 	{
-		pShoppingCart->itemsArr = tempArr; // newitem failed
+		printf("MEMORY ERROR\n");
 		return 0;
 	}
 	tempArr[cartSize] = newItem;

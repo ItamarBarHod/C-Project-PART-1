@@ -2,12 +2,19 @@
 
 int isValidBarcode(const char* str)
 {
-	if (strlen(str) == 1) // buffer fix 
+	int barcodeLength = strlen(str);
+	printf("barcode length: %d\n", barcodeLength);
+	if (barcodeLength == 1) // buffer fix 
 	{
 		return 0;
 	}
-	int digits = checkDigitsCount(str);
-	if ((digits > 5 || digits < 3) || strlen(str) != BARCODE_SIZE - 1 || isLowercase(str) || !isValidCharacterPosition(str) || !IsAlphanumeric(str))
+	if (barcodeLength != BARCODE_SIZE)
+	{
+		printf("ERROR: bad barcode length\n");
+		return 0;
+	}
+	int digitCount = checkDigitsCount(str);
+	if ((digitCount > 5 || digitCount < 3) || isLowercase(str) || !isValidCharacterPosition(str) || !IsAlphanumeric(str))
 	{
 		printf("Bad Barcode! Please follow the rules\n");
 		return 0;
