@@ -170,8 +170,10 @@ void customerShoppingHelper(Supermarket* pSupermarket, const Customer* pCustomer
 		return; // will free
 	}
 	int amount = getAmountToBuyFromUser(pSupermarket, isProductExist);
-	putItemInCustomerCart(pSupermarket, pCustomer, isProductExist, amount);
-
+	if (amount != 0)
+	{
+		putItemInCustomerCart(pSupermarket, pCustomer, isProductExist, amount);
+	}
 	printf("Would you like to continue shopping?\n");
 	int proceedShopping = askUserToContinue();
 	if (proceedShopping)
@@ -198,9 +200,9 @@ void putItemInCustomerCart(Supermarket* pSupermarket, const Customer* pCustomer,
 	Shoppingcart* pCart = pSupermarket->customerArr[customerPos].cart;
 	int newStock = pProduct->stock - amount;
 	printf("Product: %s (%s) stock left: %d\n", pProduct->productName, pProduct->barcode, newStock);
-	int itemExists = checkItemExists(pCart, pProduct);
+	int isItemExists = checkItemExists(pCart, pProduct);
 	int itemPos = getItemPos(pCart, pProduct);
-	if (itemExists)
+	if (isItemExists)
 	{
 		int itemPos = getItemPos(pCart, pProduct);
 		pCart->itemsArr[itemPos]->amount += amount;
@@ -275,7 +277,7 @@ int checkValidMarket(const Supermarket* pSupermarket)
 	int isEmptySupermarket = isSupermarketEmpty(pSupermarket);
 	if (isEmptySupermarket)
 	{
-		printf("Error: No stock is available\n");
+		printf("Error: No stock is available, returning\n");
 		return 0;
 	}
 	if (pSupermarket->customerArrSize == 0)
@@ -313,7 +315,7 @@ void printCustomerShoppingCart(const Supermarket* pSupermarket)
 	printf("Printing customer %s cart:\n", isCustomerExist->name);
 	printCustomer(&pSupermarket->customerArr[customerPos]);
 	printShoppingCart(pCart);
-	printf("Price: %.2lf\n", calcShoppingCart(pCart));
+	printf("Price of all items in cart: %.2lf\n", calcShoppingCart(pCart));
 	freeCustomer(tempCustomer); // free
 }
 
@@ -355,7 +357,8 @@ void customerCheckoutHelper(const Supermarket* pSupermarket, const Customer* pCu
 {
 	int customerPos = getCustomerPos(pSupermarket, pCustomer); // already exists
 	Shoppingcart* pCart = pSupermarket->customerArr[customerPos].cart;
-	if (pCart->shoppingCartSize > 0) {
+	if (pCart->shoppingCartSize > 0)
+	{
 		printShoppingCart(pCart);
 		printf("Paying! Price of to pay: %.2lf\n", calcShoppingCart(pCart));
 		deleteShoppingCart(pCart);

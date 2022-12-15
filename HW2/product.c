@@ -32,6 +32,7 @@ Product* createNewProduct()
 	tempProd->barcode = getBarcodeFromUser(PRODUCT_SIZE);
 	if (tempProd->barcode == NULL)
 	{
+		freeProduct(tempProd);
 		return NULL;
 	}
 	tempProd->productName = NULL;

@@ -41,7 +41,7 @@ void customerShoppingHelper(Supermarket* pSupermarket, const Customer* pCustomer
 int getAmountToBuyFromUser(const Supermarket* pSupermarket, const Product* pProduct);
 Product* getExistingProductFromUser(const Supermarket* pSupermarket);
 void putItemInCustomerCart(Supermarket* pSupermarket, const Customer* pCustomer, const Product* pProduct, int amount);
-// 5: printCustomerShoppingCart - none
+// 5: printCustomerShoppingCart - no helpers
 // 6: customerCheckout
 void customerCheckoutHelper(const Supermarket* pSupermarket, const Customer* pCustomer);
 // 7: printProductType

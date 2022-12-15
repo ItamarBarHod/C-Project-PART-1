@@ -4,6 +4,7 @@
 void printCustomer(const Customer* pCustomer)
 {
 	printf("Customer name: %s\n", pCustomer->name);
+	// not printing cart here.
 }
 
 Customer* createNewCustomer()
@@ -24,6 +25,7 @@ Customer* createNewCustomer()
 	tempCustomer->name = getNameFromUser(MAX_SIZE);
 	if (!tempCustomer->name)
 	{
+		deleteShoppingCart(tempCustomer->cart);
 		free(tempCustomer);
 		return NULL;
 	}

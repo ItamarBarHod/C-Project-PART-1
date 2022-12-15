@@ -107,14 +107,17 @@ int isValidAddressSections(const char* str) // split to 3 sections and check
 	char* city = strtok(NULL, delimiter);
 	if (!street || !IsAlphanumeric(street))
 	{
+		free(temp);
 		return 0;
 	}
 	if (!streetNum || !isOnlyNumbers(streetNum))
 	{
+		free(temp);
 		return 0;
 	}
 	if (!city || !IsAlphanumeric(city))
 	{
+		free(temp);
 		return 0;
 	}
 	free(temp); // free

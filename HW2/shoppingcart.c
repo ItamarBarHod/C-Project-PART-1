@@ -40,6 +40,7 @@ void deleteShoppingCart(Shoppingcart* pShoppingCart)
 	{
 		freeShoppingItem(pShoppingCart->itemsArr[i]);
 	}
+	free(pShoppingCart->itemsArr);
 	pShoppingCart->shoppingCartSize = 0;
 	pShoppingCart = NULL;
 }

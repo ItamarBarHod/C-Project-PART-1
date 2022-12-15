@@ -16,6 +16,7 @@ Address* getAddressData()
 	if (!newAddress)
 	{
 		printf("MEMORY ERROR\n");
+		free(address);
 		return NULL;
 	}
 	fixValidAddress(newAddress, address);
