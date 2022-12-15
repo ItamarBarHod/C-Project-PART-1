@@ -35,7 +35,7 @@ int main()
 			break;
 		case 8:
 			flag = 0;
-			deleteSuperMarket(&market);
+			exitMarket(&market);
 			printf("Bye bye!\n");
 			break;
 		default:

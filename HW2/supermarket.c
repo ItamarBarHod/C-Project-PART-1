@@ -20,7 +20,7 @@ void createSuperMarket(Supermarket* pSupermarket)
 	pSupermarket->productArrSize = 0;
 }
 
-void printMarket(const Supermarket* pSupermarket) // TODO
+void printMarket(const Supermarket* pSupermarket)
 {
 	printf("Market name: %s | ", pSupermarket->marketName);
 	printAddress(&pSupermarket->marketAddress);
@@ -449,9 +449,24 @@ Customer* checkCustomerExists(const Supermarket* pSupermarket, const Customer* p
 	return NULL;
 }
 
+void exitMarket(Supermarket* pSupermarket)
+{
+	for (int i = 0; i < pSupermarket->customerArrSize; i++)
+	{
+		printf("Customer %s payment\n", pSupermarket->customerArr[i].name);
+		Shoppingcart* cart = &pSupermarket->customerArr[i].cart;
+		if (cart->shoppingCartSize > 0) {
+			printShoppingCart(cart);
+			printf("Price: %.2lf\n", calcShoppingCart(cart));
+			printf("-----PAYMENT DONE-----\n\n");
+		}
+	}
+	deleteSuperMarket(pSupermarket);
+}
+
 void deleteSuperMarket(Supermarket* pSupermarket)
 {
-	free(pSupermarket->marketName); // name
+	free(pSupermarket->marketName);
 	freeAddress(&pSupermarket->marketAddress);
 	for (int i = 0; i < pSupermarket->customerArrSize; i++) // customers and shopping items
 	{

@@ -26,6 +26,7 @@ void customerShopping(Supermarket* pSupermarket);
 void printCustomerShoppingCart(const Supermarket* pSupermarket);
 void customerCheckout(const Supermarket* pSuperMarket);
 void printProductType(const Supermarket* pSupermarket);
+void exitMarket(Supermarket* pSupermarket);
 void deleteSuperMarket(Supermarket* pSupermarket);
 
 // helpers / extra

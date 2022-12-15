@@ -6,7 +6,6 @@ void printShoppingCart(const Shoppingcart* pShoppingCart)
 	{
 		printShoppingItem(pShoppingCart->itemsArr[i]);
 	}
-	printf("\n");
 }
 
 Shoppingcart* initShoppingCart()
