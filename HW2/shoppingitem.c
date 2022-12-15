@@ -13,11 +13,10 @@ Shoppingitem* initShoppingItem()
 		printf("MEMORY ERROR\n");
 		return NULL;
 	}
-	tempItem->barcode = NULL;
 	return tempItem;
 }
 
 void freeShoppingItem(Shoppingitem* pShoppingItem)
 {
-	free(pShoppingItem->barcode);
+	free(pShoppingItem);
 }

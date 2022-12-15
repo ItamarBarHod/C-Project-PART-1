@@ -4,7 +4,7 @@
 #include "stringfuncs.h"
 
 typedef struct {
-	char* barcode;
+	char barcode[BARCODE_SIZE];
 	float price;
 	int amount;
 }Shoppingitem;

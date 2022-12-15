@@ -30,10 +30,10 @@ float getNumberFromUser()
 char* getNameFromUser(int maxNameSize)
 {
 	char temp[MAX_SIZE];
-	char* name = NULL;
+	char* name;
 	do {
-		fgets(temp, maxNameSize, stdin);
-	} while (temp == NULL || strlen(temp) == 1);
+		name = fgets(temp, maxNameSize, stdin);
+	} while (!name || strlen(temp) == 1);
 
 	name = _strdup(temp); // malloc
 	if (name == NULL)
@@ -47,22 +47,18 @@ char* getNameFromUser(int maxNameSize)
 
 char* getBarcodeFromUser()
 {
-	char temp[MAX_SIZE];
+	char* tempBarcode;
 	int validBarcode;
-	char* barcode;
 	do {
-		fgets(temp, BARCODE_SIZE, stdin);
-		validBarcode = isValidBarcode(temp);
-	} while (!validBarcode || temp == NULL || strlen(temp) == 1);
+		tempBarcode = getNameFromUser(BARCODE_SIZE+1);
+		if (!tempBarcode)
+		{
+			return NULL;
+		}
+		validBarcode = isValidBarcode(tempBarcode);
+	} while (!validBarcode || strlen(tempBarcode) == 1);
 
-	barcode = _strdup(temp); // malloc
-	if (barcode == NULL)
-	{
-		printf("MEMORY ERROR\n");
-		return NULL;
-	}
-	barcode[strlen(temp)] = '\0';
-	return barcode;
+	return tempBarcode;
 }
 
 char* getAddressFromUser()

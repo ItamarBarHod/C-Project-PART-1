@@ -63,10 +63,9 @@ void addProduct(Supermarket* pSupermarket)
 
 int addProductHelper(Supermarket* pSupermarket, Product* pProduct)
 {
-	insertProductData(pProduct);
-	if (!pProduct->productName)
+	pProduct = insertProductData(pProduct);
+	if (!pProduct)
 	{
-		freeProduct(pProduct);
 		return 0;
 	}
 	int arrSize = pSupermarket->productArrSize;
@@ -355,14 +354,15 @@ void customerCheckoutHelper(const Supermarket* pSupermarket, const Customer* pCu
 	int customerPos = getCustomerPos(pSupermarket, pCustomer); // already exists
 	Shoppingcart* cart = &pSupermarket->customerArr[customerPos].cart;
 	if (cart->shoppingCartSize > 0) {
+		printf("\nCustomer %s shopping cart:\n", pCustomer->name);
 		printShoppingCart(cart);
 		printf("Price: %.2lf\n", calcShoppingCart(cart));
+		printf("-----PAYMENT DONE-----\n");
 		deleteShoppingCart(cart);
 		return;
 	}
 	// else no items in cart
 	printf("Error: This customer has no items yet, returning to main menu\n");
-
 }
 
 void printProductType(const Supermarket* pSupermarket)
@@ -453,12 +453,16 @@ void exitMarket(Supermarket* pSupermarket)
 {
 	for (int i = 0; i < pSupermarket->customerArrSize; i++)
 	{
-		printf("Customer %s payment\n", pSupermarket->customerArr[i].name);
-		Shoppingcart* cart = &pSupermarket->customerArr[i].cart;
-		if (cart->shoppingCartSize > 0) {
-			printShoppingCart(cart);
-			printf("Price: %.2lf\n", calcShoppingCart(cart));
-			printf("-----PAYMENT DONE-----\n\n");
+		if (pSupermarket->customerArr[i].cart.shoppingCartSize > 0)
+		{
+			printf("Customer %s payment\n", pSupermarket->customerArr[i].name);
+			Shoppingcart* cart = &pSupermarket->customerArr[i].cart;
+			if (cart->shoppingCartSize > 0)
+			{
+				printShoppingCart(cart);
+				printf("Price: %.2lf\n", calcShoppingCart(cart));
+				printf("-----PAYMENT DONE-----\n\n");
+			}
 		}
 	}
 	deleteSuperMarket(pSupermarket);
