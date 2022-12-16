@@ -50,12 +50,16 @@ char* getBarcodeFromUser()
 	char* tempBarcode;
 	int validBarcode;
 	do {
-		tempBarcode = getNameFromUser(BARCODE_SIZE+1);
+		tempBarcode = getNameFromUser(BARCODE_SIZE + 1); // malloc
 		if (!tempBarcode)
 		{
 			return NULL;
 		}
 		validBarcode = isValidBarcode(tempBarcode);
+		if (!validBarcode)
+		{
+			free(tempBarcode); // free
+		}
 	} while (!validBarcode || strlen(tempBarcode) == 1);
 
 	return tempBarcode;

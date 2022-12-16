@@ -73,6 +73,20 @@ int IsAlphanumeric(const char* str)
 	return 1;
 }
 
+int isOnlySpaces(const char* str)
+{
+	while (*str)
+	{
+		int isSpace = isspace(*str);
+		if (!isSpace)
+		{
+			return 0;
+		}
+		str++;
+	}
+	return 1;
+}
+
 int isOnlyNumbers(const char* str)
 {
 	while (*str)
@@ -99,7 +113,7 @@ int isValidAddressSections(const char* str) // split to 3 sections and check
 	char* street = strtok(temp, delimiter);
 	char* streetNum = strtok(NULL, delimiter);
 	char* city = strtok(NULL, delimiter);
-	if (!street || !IsAlphanumeric(street))
+	if (!street || !IsAlphanumeric(street) || isOnlySpaces(street))
 	{
 		return 0;
 	}
@@ -107,7 +121,7 @@ int isValidAddressSections(const char* str) // split to 3 sections and check
 	{
 		return 0;
 	}
-	if (!city || !IsAlphanumeric(city))
+	if (!city || !IsAlphanumeric(city) || isOnlySpaces(street))
 	{
 		return 0;
 	}
@@ -138,14 +152,13 @@ char* fixAddressStreetAndCity(char* str)
 {
 	char tempString[MAX_SIZE] = "";
 	const char* delimiter = " ";
-	char* token = NULL;
-	char* lastWord = NULL;
+	char* token, * lastWord, * firstWord;
+	firstWord = str;
 	token = strtok(str, delimiter); // cant be NULL
 	lastWord = token;
 	int index = 0;
 	while (token)
 	{
-		_strlwr(token);
 		*token = toupper(*token);
 		strcat(tempString, token);
 		strcat(tempString, "  ");
@@ -157,6 +170,7 @@ char* fixAddressStreetAndCity(char* str)
 	tempString[index] = tolower(tempString[index]);
 	index += (int)strlen(lastWord);
 	tempString[index] = '\0';
+	tempString[0] = toupper(tempString[0]);
 	char* fixedString = _strdup(tempString); // malloc
 	if (!fixedString)
 	{

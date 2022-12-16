@@ -15,4 +15,5 @@ int isValidCharacterPosition(const char* str);
 int isValidAddressFormat(const char* str);
 int isValidAddressSections(const char* str);
 int validTokens(const char* str);
+int isOnlySpaces(const char* str);
 char* fixAddressStreetAndCity(char* str);
