@@ -30,11 +30,15 @@ float getNumberFromUser()
 char* getNameFromUser(int maxNameSize)
 {
 	char temp[MAX_SIZE];
+	char ch;
 	char* name;
 	do {
-		name = fgets(temp, maxNameSize, stdin);
-	} while (!name || strlen(temp) == 1);
-
+		name = fgets(temp, MAX_SIZE, stdin);
+		if (strlen(temp) > maxNameSize)
+		{
+			printf("Error: input too long, please re-enter\n");
+		}
+	} while (!name || strlen(temp) == 1 || strlen(temp) > maxNameSize);
 	name = _strdup(temp); // malloc
 	if (name == NULL)
 	{
@@ -50,7 +54,7 @@ char* getBarcodeFromUser()
 	char* tempBarcode;
 	int validBarcode;
 	do {
-		tempBarcode = getNameFromUser(BARCODE_SIZE + 1); // malloc
+		tempBarcode = getNameFromUser(MAX_SIZE); // malloc
 		if (!tempBarcode)
 		{
 			return NULL;
@@ -60,7 +64,7 @@ char* getBarcodeFromUser()
 		{
 			free(tempBarcode); // free
 		}
-	} while (!validBarcode || strlen(tempBarcode) == 1);
+	} while (!validBarcode);
 
 	return tempBarcode;
 }

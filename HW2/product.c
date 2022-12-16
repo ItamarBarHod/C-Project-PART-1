@@ -8,8 +8,7 @@ void printProduct(const Product* pProduct)
 Product* insertProductData(Product* pProduct)
 {
 	printf("Please enter a product name, maximum size %d\n", PRODUCT_SIZE - 1);
-	char* tempProdName;
-	tempProdName = getNameFromUser(PRODUCT_SIZE);
+	char* tempProdName = getNameFromUser(PRODUCT_SIZE);
 	if (!tempProdName)
 	{
 		return NULL;
